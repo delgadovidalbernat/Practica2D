@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Scene.h"
 #include "Game.h"
+#include "Menu.h"
 
 
 #define SCREEN_X 32
@@ -37,6 +38,7 @@ void Scene::init()
 	player->setTileMap(map);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
+	Menu::instance().buildMenu(texProgram);
 }
 
 void Scene::update(int deltaTime)
@@ -56,7 +58,16 @@ void Scene::render()
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
+	
+	if (Menu::instance().getOpenMenu())
+	{
+		
+		Menu::instance().render();
+	}
+	
+	
 	player->render();
+	
 }
 
 void Scene::initShaders()

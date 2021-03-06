@@ -2,6 +2,8 @@
 #include <GL/glut.h>
 #include "Game.h"
 
+#include "Menu.h"
+
 
 void Game::init()
 {
@@ -12,7 +14,10 @@ void Game::init()
 
 bool Game::update(int deltaTime)
 {
-	scene.update(deltaTime);
+	if (!Menu::instance().getOpenMenu())
+	{
+		scene.update(deltaTime);
+	}
 	
 	return bPlay;
 }
@@ -25,8 +30,16 @@ void Game::render()
 
 void Game::keyPressed(int key)
 {
-	if(key == 27) // Escape code
+	if (key == 27) // Escape code
 		bPlay = false;
+	if (key == 32)
+		if (!Menu::instance().getOpenMenu()) {
+			Menu::instance().setOpenMenu(true);
+			keyReleased(key);
+		}
+		else
+			Menu::instance().setOpenMenu(false);
+	
 	keys[key] = true;
 }
 

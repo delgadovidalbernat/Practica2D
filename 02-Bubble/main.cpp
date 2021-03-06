@@ -1,6 +1,7 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include "Game.h"
+#include "Menu.h"
 
 
 //Remove console (only works in Visual Studio)
@@ -80,6 +81,7 @@ static void idleCallback()
 }
 
 
+
 int main(int argc, char **argv)
 {
 	// GLUT initialization
@@ -105,6 +107,8 @@ int main(int argc, char **argv)
 	// Game instance initialization
 	Game::instance().init();
 	prevTime = glutGet(GLUT_ELAPSED_TIME);
+
+	
 	// GLUT gains control of the application
 	glutMainLoop();
 
