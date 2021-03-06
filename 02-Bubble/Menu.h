@@ -34,7 +34,10 @@ public:
 
 private:
 	
-	TextWriter t;
+	TextWriter writer;
+	glm::mat4 projection;
+	glm::mat4 modelview;
+	ShaderProgram texProgram;
 	bool openMenu;
 	
 };

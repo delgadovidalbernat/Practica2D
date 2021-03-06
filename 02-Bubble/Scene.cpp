@@ -58,15 +58,13 @@ void Scene::render()
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
-	
+	player->render();
+
 	if (Menu::instance().getOpenMenu())
 	{
-		
+
 		Menu::instance().render();
 	}
-	
-	
-	player->render();
 	
 }
 

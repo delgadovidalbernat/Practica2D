@@ -13,7 +13,7 @@ void TextWriter::init(ShaderProgram& program)
 	//coord de la textura a pintar dentro de la imagen
 	glm::vec2 texCoords[2] = { glm::vec2(0.f, 0.f), glm::vec2(0.15f, 0.15f) };
 
-	tex.loadFromFile("images/bitmapFont.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	tex.loadFromFile("images/bitmapFont2.png", TEXTURE_PIXEL_FORMAT_RGBA);
 
 	float vertices[24] = { geom[0].x, geom[0].y, texCoords[0].x, texCoords[0].y,
 												geom[1].x, geom[0].y, texCoords[1].x, texCoords[0].y,
