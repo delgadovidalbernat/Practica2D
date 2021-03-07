@@ -8,7 +8,8 @@ public:
 	
 	TextWriter();
 	void init(ShaderProgram& program);
-	void  render();
+	void render();
+	void usarLetra(ShaderProgram& program, char letra);
 
 private:
 

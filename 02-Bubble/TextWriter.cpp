@@ -1,17 +1,26 @@
 #include "TextWriter.h"
 
+
 TextWriter::TextWriter()
 {
 	
 }
 
-void TextWriter::init(ShaderProgram& program)
+void TextWriter::usarLetra(ShaderProgram& program, char letra)
 {
 
+	float SpaceAmongLetters = 0.003f;
+
+	//Calcula el offset en las X dentro de la textura, al restarle 65 a la letra tenemos un valor
+	//assignado a la letra que empieza en A = 0, y al multiplicarlo por 0.11 coseguimos el valor exacto
+	//en las X que representa esa letra en nuestra imagen, hacemos el modulo 9 para crear una cola ciclica
+	//que permita reiniciar el proceso en el momento que nos salimos de los extremos de la imagen.
+	float TexsCoordOffset = ((letra - 65) % 9) * 0.11f;
+	
 	//tamano del cuadrado
-	glm::vec2 geom[2] = { glm::vec2(0.f, 0.f), glm::vec2(128.f, 128.f) };
+	glm::vec2 geom[2] = { glm::vec2(0.f, 0.f), glm::vec2(125.f, 125.f) };
 	//coord de la textura a pintar dentro de la imagen
-	glm::vec2 texCoords[2] = { glm::vec2(0.f, 0.f), glm::vec2(0.15f, 0.15f) };
+	glm::vec2 texCoords[2] = { glm::vec2(0.028f + TexsCoordOffset, 0.016f), glm::vec2(0.082f + TexsCoordOffset + SpaceAmongLetters, 0.073f) };
 
 	tex.loadFromFile("images/bitmapFont2.png", TEXTURE_PIXEL_FORMAT_RGBA);
 
@@ -29,6 +38,14 @@ void TextWriter::init(ShaderProgram& program)
 	glBufferData(GL_ARRAY_BUFFER, 24 * sizeof(float), vertices, GL_STATIC_DRAW);
 	posLocation = program.bindVertexAttribute("position", 2, 4 * sizeof(float), 0);
 	texCoordLocation = program.bindVertexAttribute("texCoord", 2, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+	
+}
+
+
+void TextWriter::init(ShaderProgram& program)
+{
+
+	usarLetra(program, 'V');
 
 }
 
