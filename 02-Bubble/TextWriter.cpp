@@ -13,18 +13,19 @@ TextWriter* TextWriter::CreateTextWriter(glm::vec2 geom[2], ShaderProgram& progr
 
 
 TextWriter::TextWriter(glm::vec2 geom[2], ShaderProgram& program, char letra)
-	:program(program) 
+	:program(program)
 {
 
+	
 	init(letra, geom);
 	
 }
 
 
-void TextWriter::usarLetra(char letra, glm::vec2 geo[2])
+void TextWriter::usarLetra(char letra, glm::vec2 geo[2], float spaceAmongLetters)
 {
 	//Deja un espacio negro a la derecha de la letra para poder concatenar con espaciado con otra letra si es necessario
-	float SpaceAmongLetters = 0.003f;
+	float SpaceAmongLetters = spaceAmongLetters;
 
 	//Calcula el offset en las X dentro de la textura, al restarle 65 a la letra tenemos un valor
 	//assignado a la letra que empieza en A = 0, y al multiplicarlo por 0.11 coseguimos el valor exacto
@@ -63,7 +64,7 @@ void TextWriter::usarLetra(char letra, glm::vec2 geo[2])
 void TextWriter::init(char Letra, glm::vec2 geom[2])
 {
 
-	usarLetra(Letra, geom);
+	usarLetra(Letra, geom, 0.003);
 
 }
 

@@ -4,6 +4,7 @@
 
 #include "Texture.h"
 #include "ShaderProgram.h"
+#include "TextManager.h"
 #include "TextWriter.h"
 
 enum options
@@ -34,7 +35,7 @@ public:
 
 private:
 	
-	TextWriter* writer;
+	TextManager* TxtManager[2];
 	glm::mat4 projection;
 	glm::mat4 modelview;
 	ShaderProgram texProgram;
