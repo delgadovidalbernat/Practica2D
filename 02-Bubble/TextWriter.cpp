@@ -2,12 +2,26 @@
 
 
 
-TextWriter::TextWriter()
+
+
+TextWriter* TextWriter::CreateTextWriter(glm::vec2 geom[2], ShaderProgram& program)
 {
+	
+	TextWriter* writer = new TextWriter(geom, program, 'A');
+	return writer;
+}
+
+
+TextWriter::TextWriter(glm::vec2 geom[2], ShaderProgram& program, char letra)
+	:program(program) 
+{
+
+	init(letra, geom);
 	
 }
 
-void TextWriter::usarLetra(ShaderProgram& program, char letra)
+
+void TextWriter::usarLetra(char letra, glm::vec2 geo[2])
 {
 	//Deja un espacio negro a la derecha de la letra para poder concatenar con espaciado con otra letra si es necessario
 	float SpaceAmongLetters = 0.003f;
@@ -22,7 +36,7 @@ void TextWriter::usarLetra(ShaderProgram& program, char letra)
 	float TexsCoordYOffset = ((letra - 65) / 9) * 0.1045f;
 	
 	//tamano del cuadrado
-	glm::vec2 geom[2] = { glm::vec2(0.f, 0.f), glm::vec2(125.f, 125.f) };
+	glm::vec2 geom[2] = { glm::vec2(0.f + geo[0].x, 0.f + geo[0].y), glm::vec2(0.f + geo[1].x, 0.f + geo[1].y) };
 	//coord de la textura a pintar dentro de la imagen
 	glm::vec2 texCoords[2] = { glm::vec2(0.028f + TexsCoordXOffset, 0.016f + TexsCoordYOffset), glm::vec2(0.082f + TexsCoordXOffset + SpaceAmongLetters, 0.073f + TexsCoordYOffset) };
 
@@ -46,10 +60,10 @@ void TextWriter::usarLetra(ShaderProgram& program, char letra)
 }
 
 
-void TextWriter::init(ShaderProgram& program)
+void TextWriter::init(char Letra, glm::vec2 geom[2])
 {
 
-	usarLetra(program, 'K');
+	usarLetra(Letra, geom);
 
 }
 
@@ -63,4 +77,12 @@ void TextWriter::render()
 	glEnableVertexAttribArray(texCoordLocation);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glDisable(GL_TEXTURE_2D);
+}
+
+void TextWriter::free()
+{
+
+	glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
+
 }

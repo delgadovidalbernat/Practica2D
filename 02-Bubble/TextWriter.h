@@ -6,10 +6,12 @@ class TextWriter
 {
 public:
 	
-	TextWriter();
-	void init(ShaderProgram& program);
+	TextWriter(glm::vec2 geom[2], ShaderProgram& program, char letra);
+	static TextWriter* CreateTextWriter(glm::vec2 geom[2], ShaderProgram& program);
+	void init(char Letra, glm::vec2 geom[2]);
 	void render();
-	void usarLetra(ShaderProgram& program, char letra);
+	void usarLetra(char letra, glm::vec2 geom[2]);
+	void free();
 
 private:
 
@@ -17,6 +19,7 @@ private:
 	GLuint vbo;
 	GLint posLocation, texCoordLocation;
 	Texture tex;
-
+	ShaderProgram& program;
+	
 };
 
