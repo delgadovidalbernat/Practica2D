@@ -17,6 +17,10 @@ bool Game::update(int deltaTime)
 	if (!Menu::instance().getOpenMenu())
 	{
 		scene.update(deltaTime);
+	}else
+	{
+
+		//Menu::instance().update(deltaTime);
 	}
 	
 	return bPlay;
@@ -39,6 +43,10 @@ void Game::keyPressed(int key)
 		}
 		else
 			Menu::instance().setOpenMenu(false);
+	if (Menu::instance().getOpenMenu() && key == 13)//13 es el ascii de enter
+	{
+		Menu::instance().pressEnter();
+	}
 	
 	keys[key] = true;
 }
@@ -51,6 +59,16 @@ void Game::keyReleased(int key)
 void Game::specialKeyPressed(int key)
 {
 	specialKeys[key] = true;
+
+	if (Menu::instance().getOpenMenu() && key == GLUT_KEY_UP)
+	{
+		Menu::instance().addOptionMenu(-1);
+	}
+	if (Menu::instance().getOpenMenu() && key == GLUT_KEY_DOWN)
+	{
+		Menu::instance().addOptionMenu(1);
+	}
+	
 }
 
 void Game::specialKeyReleased(int key)

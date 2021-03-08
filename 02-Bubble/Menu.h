@@ -10,6 +10,7 @@
 enum options
 {
 	Play,
+	CONTROLS,
 	Exit
 };
 
@@ -29,17 +30,29 @@ public:
 	
 	void  buildMenu(ShaderProgram& program);
 	void  render();
+	void  openMenuFunc();
 
 	void setOpenMenu(bool openMenu) { this->openMenu = openMenu;  }
 	bool getOpenMenu() { return openMenu; }
+	void update(float deltaTime);
+	void setOptionMenu(options o);
+	void addOptionMenu(int addition);
+
+	void pressEnter();
+	void functionPLAY();
+	void functionOPTIONS();
+	void functionEXIT();
 
 private:
+
 	
-	TextManager* TxtManager[2];
+	TextManager* TxtManager[3];
 	glm::mat4 projection;
 	glm::mat4 modelview;
 	ShaderProgram texProgram;
 	bool openMenu;
+	int optionSelected;
+	float distanceAmongWords;
 	
 };
 

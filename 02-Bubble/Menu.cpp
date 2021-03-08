@@ -1,5 +1,7 @@
 #include "Menu.h"
 
+
+#include <iostream>
 #include <GL/freeglut_std.h>
 #include <glm/gtc/matrix_transform.inl>
 
@@ -14,12 +16,15 @@ Menu::Menu()
 
 void Menu::buildMenu(ShaderProgram &program)
 {
+	distanceAmongWords = 60.f;
+	optionSelected = options::Play;
 	openMenu = false;
 	texProgram = program;
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 
 	TxtManager[0] = TextManager::CreateTextManager(program, "PLAY", glm::vec2((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f));
-	
+	TxtManager[1] = TextManager::CreateTextManager(program, "CONTROLS", glm::vec2((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::CONTROLS));
+	TxtManager[2] = TextManager::CreateTextManager(program, "EXIT", glm::vec2((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::Exit));
 }
 
 void Menu::render()
@@ -37,11 +42,136 @@ void Menu::render()
 	modelview = glm::mat4(1.0f);
 	texProgram.setUniformMatrix4f("modelview", modelview);
 
-	//Pintar la frase que tiene guardada el textManager
-	TxtManager[0]->print();
+	//Pintar las opciones guardadas en textManager
+
+	switch (optionSelected)
+	{
+	case options::Play:
+
+		modelview = glm::mat4(1.0f);
+		modelview = glm::translate(modelview, glm::vec3(-50.f, 0.f, 0.f));
+		modelview = glm::translate(modelview, glm::vec3((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f, 0.f));
+		modelview = glm::scale(modelview, glm::vec3(1.15f, 1.15f, 1.f));
+		modelview = glm::translate(modelview, glm::vec3(-(SCREEN_WIDTH - 200.f) * 0.5f, -SCREEN_HEIGHT * 0.5f, 0.f));
+
+		
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[0]->print();
+
+		modelview = glm::mat4(1.0f);
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[1]->print();
+
+		modelview = glm::mat4(1.0f);
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[2]->print();
+		break;
+	case options::CONTROLS:
+
+		modelview = glm::mat4(1.0f);
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[0]->print();
+
+		modelview = glm::mat4(1.0f);
+		modelview = glm::translate(modelview, glm::vec3(-50.f, 0.f, 0.f));
+		modelview = glm::translate(modelview, glm::vec3((SCREEN_WIDTH - 200.f) * 0.5f, (SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::CONTROLS), 0.f));
+		modelview = glm::scale(modelview, glm::vec3(1.15f, 1.15f, 1.f));
+		modelview = glm::translate(modelview, glm::vec3(-(SCREEN_WIDTH - 200.f) * 0.5f, -(SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::CONTROLS), 0.f));
+
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[1]->print();
+
+		modelview = glm::mat4(1.0f);
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[2]->print();
+		break;
+		
+		
+	case options::Exit:
+
+		modelview = glm::mat4(1.0f);
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[0]->print();
+
+		modelview = glm::mat4(1.0f);
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[1]->print();
+
+		modelview = glm::mat4(1.0f);
+		modelview = glm::translate(modelview, glm::vec3(-50.f, 0.f, 0.f));
+		modelview = glm::translate(modelview, glm::vec3((SCREEN_WIDTH - 200.f) * 0.5f, (SCREEN_HEIGHT * 0.5f +distanceAmongWords * options::Exit), 0.f));
+		modelview = glm::scale(modelview, glm::vec3(1.15f, 1.15f, 1.f));
+		modelview = glm::translate(modelview, glm::vec3(-(SCREEN_WIDTH - 200.f) * 0.5f, -(SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::Exit), 0.f));
+
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[2]->print();
+		break;
+	}
 	
 	//poner color de fondo original
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 }
+
+void Menu::openMenuFunc()
+{
+
+	openMenu = true;
+	render();
+	
+}
+
+void Menu::update(float deltaTime)
+{
+	
+	
+}
+
+void Menu::setOptionMenu(options o)
+{
+	optionSelected = o;
+}
+
+void Menu::addOptionMenu(int addition)
+{
+	if ((addition > 0 && optionSelected != options::Exit) || (addition < 0 && optionSelected != options::Play))
+	{
+		optionSelected = optionSelected + addition;
+	}
+ 	
+}
+
+void Menu::pressEnter()
+{
+	switch (optionSelected)
+	{
+
+	case options::Play:
+
+		functionPLAY();
+		break;
+	case options::CONTROLS:
+
+		functionOPTIONS();
+		break;
+	case options::Exit:
+
+		functionEXIT();
+		break;
+	}
+	
+}
+
+void Menu::functionPLAY()
+{
+	openMenu = false;
+}
+
+void Menu::functionEXIT()
+{
+
+	Game::instance().keyPressed(27);
+}
+
+
 
 

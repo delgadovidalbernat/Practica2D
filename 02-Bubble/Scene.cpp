@@ -39,6 +39,7 @@ void Scene::init()
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 	Menu::instance().buildMenu(texProgram);
+	Menu::instance().openMenuFunc();
 }
 
 void Scene::update(int deltaTime)
