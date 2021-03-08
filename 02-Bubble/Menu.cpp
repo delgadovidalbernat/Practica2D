@@ -166,6 +166,10 @@ void Menu::functionPLAY()
 	openMenu = false;
 }
 
+void Menu::functionOPTIONS()
+{
+}
+
 void Menu::functionEXIT()
 {
 
