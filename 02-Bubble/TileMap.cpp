@@ -84,6 +84,8 @@ bool TileMap::loadLevel(const string &levelFile)
 		{
 			fin.get(tile);
 			if(tile == ' ')
+				//es un vector no una matriz, por ese motivo cada fila de la matriz que representa el mapa 
+				//es contigua en este vector
 				map[j*mapSize.x+i] = 0;
 			else
 				map[j*mapSize.x+i] = tile - int('0');

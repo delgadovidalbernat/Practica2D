@@ -46,6 +46,12 @@ void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	player->update(deltaTime);
+
+	if (player->getPosPlayer() == glm::ivec2(32*map->getTileSize(),25*map->getTileSize()))
+	{
+		Game::instance().setbWin(true);
+		player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	}
 }
 
 void Scene::render()
@@ -68,6 +74,7 @@ void Scene::render()
 	}
 	
 }
+
 
 void Scene::initShaders()
 {

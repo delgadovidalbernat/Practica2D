@@ -22,6 +22,14 @@ bool Game::update(int deltaTime)
 
 		//Menu::instance().update(deltaTime);
 	}
+
+	if (bWin)
+	{
+
+		Menu::instance().openMenuFunc();
+		bWin = false;
+		
+	}
 	
 	return bPlay;
 }
@@ -36,13 +44,15 @@ void Game::keyPressed(int key)
 {
 	if (key == 27) // Escape code
 		bPlay = false;
+	/* Este fragmento comentado da la posibilidad de abrir y cerrar el menu con el espacio en cualquier momento
 	if (key == 32)
 		if (!Menu::instance().getOpenMenu()) {
 			Menu::instance().setOpenMenu(true);
 			keyReleased(key);
 		}
-		else
+		else 
 			Menu::instance().setOpenMenu(false);
+	*/
 	if (Menu::instance().getOpenMenu() && key == 13)//13 es el ascii de enter
 	{
 		Menu::instance().pressEnter();
@@ -98,6 +108,10 @@ bool Game::getSpecialKey(int key) const
 	return specialKeys[key];
 }
 
+void Game::setbWin(bool bWin)
+{
+	this->bWin = bWin;
+}
 
 
 

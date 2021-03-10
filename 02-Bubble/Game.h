@@ -27,6 +27,7 @@ public:
 	}
 	
 	void init();
+	void setbWin(bool bWin);
 	bool update(int deltaTime);
 	void render();
 	
@@ -46,7 +47,8 @@ private:
 	bool bPlay;                       // Continue to play game?
 	Scene scene;                      // Scene to render
 	bool keys[256], specialKeys[256]; // Store key states so that 
-	                                  // we can have access at any time
+			                         // we can have access at any time
+	bool bWin;
 
 };
 
