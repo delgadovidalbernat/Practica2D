@@ -47,10 +47,20 @@ void Scene::update(int deltaTime)
 	currentTime += deltaTime;
 	player->update(deltaTime);
 
-	if (player->getPosPlayer() == glm::ivec2(32*map->getTileSize(),25*map->getTileSize()))
+	//Si el jugador se pone en esa posicion bWin se pone a true y se activa el mecanismo de partida ganada, por detras se
+	//pone al jugador en la posicion del principio
+	if (player->getPosPlayer() == glm::ivec2(34*map->getTileSize(),25*map->getTileSize()))
 	{
-		Game::instance().setbWin(true);
-		player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+		//Game::instance().setbWin(true);
+		glm::ivec2 pos = player->getPosPlayer();
+		player->setPosition(glm::vec2(0, player->getPosPlayer().y));
+		
+		//voy a tener un vector de mapas que segun posicion se intercanvien para dar la sensacion de continuidad
+		//no es necessario limpiarlpos de memoria ya que necessito guardar el estado anterior en el que los dejo el jugador
+		//asi a la par de ahorrar render doy sensacion de permanencia.
+		map->free();
+		map = TileMap::createTileMap("levels/level02.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
+		player->setTileMap(map);
 	}
 }
 

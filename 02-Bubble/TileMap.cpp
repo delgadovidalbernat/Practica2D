@@ -43,6 +43,7 @@ void TileMap::render() const
 void TileMap::free()
 {
 	glDeleteBuffers(1, &vbo);
+
 }
 
 bool TileMap::loadLevel(const string &levelFile)
@@ -119,7 +120,7 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 				posTile = glm::vec2(minCoords.x + i * tileSize, minCoords.y + j * tileSize);
 				texCoordTile[0] = glm::vec2(float((tile-1)%2) / tilesheetSize.x, float((tile-1)/2) / tilesheetSize.y);
 				texCoordTile[1] = texCoordTile[0] + tileTexSize;
-				//texCoordTile[0] += halfTexel;
+				texCoordTile[0] += halfTexel;
 				texCoordTile[1] -= halfTexel;
 				// First triangle
 				vertices.push_back(posTile.x); vertices.push_back(posTile.y);
@@ -168,6 +169,9 @@ bool TileMap::collisionMoveLeft(const glm::ivec2 &pos, const glm::ivec2 &size) c
 	return false;
 }
 
+//calcula en la altura del personmage desde el punto minimo del quadradao hasta la cabeza, y usa esa altura junto con la x
+//para passar por filas en el vector que representa el mapa solo variando la altura, si alguna da distinto de 0 hay bloque
+//y por lo tanto colision
 bool TileMap::collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) const
 {
 	int x, y0, y1;
@@ -187,9 +191,11 @@ bool TileMap::collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) 
 bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const
 {
 	int x0, x1, y;
-	
+	//solo se divide por el hecho que el personaje lo tenen,mos en coordenadas de juego
+	//mientras que al recorer el vector del mapa debemos estar en coordenadas de mapa
 	x0 = pos.x / tileSize;
-	x1 = (pos.x + size.x - 1) / tileSize;
+	x1 = (pos.x + size.x - 1) / tileSize;//le suma a la posicion en coordenadas de pantalla lo que mide un cubo de suelo que es justo lo que
+	//ocupa el personaje y luego lo divide entre lo que ocupa un tile para volver a coordenadas de juego
 	y = (pos.y + size.y - 1) / tileSize;
 	for(int x=x0; x<=x1; x++)
 	{
@@ -203,6 +209,26 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 		}
 	}
 	
+	return false;
+}
+
+bool TileMap::collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const
+{
+	int x0, x1, y, y0;
+
+	x0 = pos.x / tileSize;
+	x1 = (pos.x + size.x - 5) / tileSize;
+	y0 = (pos.y) / tileSize;
+
+	for (int x = x0; x <= x1; x++)
+	{
+		if (map[y0 * mapSize.x + x] != 0)
+		{
+			
+			return true;
+		}
+	}
+
 	return false;
 }
 

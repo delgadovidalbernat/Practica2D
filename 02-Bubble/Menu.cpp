@@ -30,7 +30,7 @@ void Menu::buildMenu(ShaderProgram &program)
 void Menu::render()
 {
 	//limpiar la pantalla de color negro
-	glClearColor(0.f, 0.f, 0.f, 0.0f);
+	glClearColor(0.f, 0.f, 0.f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//Configurar el shader por defecto para que las otras texturas que usan el shader no afecten a este
@@ -108,8 +108,6 @@ void Menu::render()
 		break;
 	}
 	
-	//poner color de fondo original
-	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 }
 
 void Menu::openMenuFunc()
