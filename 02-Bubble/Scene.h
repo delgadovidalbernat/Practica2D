@@ -3,6 +3,8 @@
 
 
 #include <glm/glm.hpp>
+
+#include "Enemigo.h"
 #include "ShaderProgram.h"
 #include "TileMap.h"
 #include "Player.h"
@@ -30,6 +32,7 @@ private:
 private:
 	TileMap *map;
 	Player *player;
+	Enemigo *enemy;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
