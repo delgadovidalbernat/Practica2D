@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 
 
+
 #include "Texture.h"
 #include "ShaderProgram.h"
 class Enemigo;
@@ -52,6 +53,7 @@ private:
 	glm::vec2 tileTexSize;
 	int *map;
 	vector<Enemigo*> enemys;
+	
 };
 
 

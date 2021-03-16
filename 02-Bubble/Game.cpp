@@ -9,14 +9,14 @@ void Game::init()
 {
 	bPlay = true;
 	glClearColor(0.f, 0.f, 0.f, 1.0f);
-	scene.init();
+	level.init();
 }
 
 bool Game::update(int deltaTime)
 {
 	if (!Menu::instance().getOpenMenu())
 	{
-		scene.update(deltaTime);
+		level.update(deltaTime);
 	}else
 	{
 
@@ -37,7 +37,7 @@ bool Game::update(int deltaTime)
 void Game::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	scene.render();
+	level.render();
 }
 
 void Game::keyPressed(int key)

@@ -16,13 +16,15 @@
 enum numPantalla
 {
 
-	primer, segon, tercer, cuart, cinque
+	primer = 0, segon, tercer, cuart, cinque
 };
 
 class Scene
 {
 
 public:
+
+	static Scene* createScene();
 	Scene();
 	~Scene();
 
@@ -35,13 +37,14 @@ private:
 	void initShaders();
 
 private:
-	TileMap *map;
+	vector<TileMap*> maps;
 	Player *player;
 	Enemigo *enemy;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
-	numPantalla pantalla;
+	int pantalla;
+	
 	
 };
 

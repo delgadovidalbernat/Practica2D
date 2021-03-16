@@ -2,7 +2,8 @@
 #define _GAME_INCLUDE
 
 
-#include "Scene.h"
+#include "Level.h"
+
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
@@ -44,7 +45,7 @@ public:
 
 private:
 	bool bPlay;                       // Continue to play game?
-	Scene scene;                      // Scene to render        
+	Level level;                      // Scene to render
 	bool keys[256], specialKeys[256]; // Store key states so that
 									  // we can have access at any time
 	//Poner esta variable a true desde donde sea hace que se gane la partida

@@ -13,17 +13,29 @@
 #define INIT_PLAYER_Y_TILES 25
 
 
+Scene* Scene::createScene()
+{
+	return new Scene();
+}
+
 Scene::Scene()
 {
-	map = NULL;
+	
+	for (auto m : maps)
+	{
+		m = NULL;
+	}
 	player = NULL;
 
 }
 
 Scene::~Scene()
 {
-	if(map != NULL)
-		delete map;
+	for (auto m : maps)
+	{
+		if (m != NULL)
+			delete m;
+	}
 	if(player != NULL)
 		delete player;
 
@@ -35,11 +47,18 @@ void Scene::init()
 
 	pantalla = numPantalla::primer;
 	initShaders();
-	map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
+
+	//el 3 se debe a que 3-1 = 2 que soin los mapas que ahora mismo tenemos en la carpeta
+	for (int i = 1; i<3; i++)
+	{
+		string pathMap = "levels/level0" + std::to_string(i) + ".txt";
+		maps.push_back(TileMap::createTileMap(pathMap, glm::vec2(SCREEN_X, SCREEN_Y), texProgram));
+	}
+	
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	player->setTileMap(map);
+	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * maps[0]->getTileSize(), INIT_PLAYER_Y_TILES * maps[0]->getTileSize()));
+	player->setTileMap(maps[0]);
 	
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
@@ -51,12 +70,18 @@ void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	player->update(deltaTime);
-	map->update(deltaTime);
+	maps[pantalla]->update(deltaTime);
+
+	
 
 	//Si el jugador se pone en esa posicion bWin se pone a true y se activa el mecanismo de partida ganada, por detras se
 	//pone al jugador en la posicion del principio
-	if (player->getPosPlayer().x == (34*map->getTileSize()))
+	if (player->getPosPlayer().x == (34*maps[pantalla]->getTileSize()))
 	{
+		if (pantalla < maps.size()-1)
+		{
+			++pantalla;
+		}
 		//Game::instance().setbWin(true);
 		glm::ivec2 pos = player->getPosPlayer();
 		player->setPosition(glm::vec2(0, player->getPosPlayer().y));
@@ -64,28 +89,26 @@ void Scene::update(int deltaTime)
 		//voy a tener un vector de mapas que segun posicion se intercanvien para dar la sensacion de continuidad
 		//no es necessario limpiarlpos de memoria ya que necessito guardar el estado anterior en el que los dejo el jugador
 		//asi a la par de ahorrar render doy sensacion de permanencia.
-		map->free();
-		map = TileMap::createTileMap("levels/level02.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
-		player->setTileMap(map);
-		pantalla = numPantalla::segon;
+		player->setTileMap(maps[pantalla]);
 		
-	}else if(player->getPosPlayer().x == (0 * map->getTileSize()))
+	}else if(player->getPosPlayer().x == (0 * maps[pantalla]->getTileSize()))
 	{
-
+		if (pantalla > numPantalla::primer)
+		{
+			--pantalla;
+		}
+		
 		glm::ivec2 pos = player->getPosPlayer();
-		player->setPosition(glm::vec2(34 * map->getTileSize(), player->getPosPlayer().y));
+		player->setPosition(glm::vec2(34 * maps[pantalla]->getTileSize(), player->getPosPlayer().y));
 
 		//voy a tener un vector de mapas que segun posicion se intercanvien para dar la sensacion de continuidad
 		//no es necessario limpiarlpos de memoria ya que necessito guardar el estado anterior en el que los dejo el jugador
 		//asi a la par de ahorrar render doy sensacion de permanencia.
-		map->free();
-		map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
-		player->setTileMap(map);
-		pantalla = numPantalla::primer;
+		player->setTileMap(maps[pantalla]);
 		
 	}
 
-	vector<Enemigo*> enemys = map->getEnemys();
+	vector<Enemigo*> enemys = maps[pantalla]->getEnemys();
 	
 	for (auto e : enemys)
 	{
@@ -112,7 +135,7 @@ void Scene::render()
 	modelview = glm::mat4(1.0f);
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
-	map->render();
+	maps[pantalla]->render();
 	player->render();
 	
 	if (Menu::instance().getOpenMenu())
