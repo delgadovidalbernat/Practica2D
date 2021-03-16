@@ -13,7 +13,8 @@ Enemigo::Enemigo()
 
 void Enemigo::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 {
-	
+	collisioning = false;
+	puedeColisionar = true;
 	MoveRight = false;
 	bJumping = false;
 	spritesheet.loadFromFile("images/bub.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -44,7 +45,6 @@ void Enemigo::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 
 void Enemigo::update(int deltaTime)
 {
-
 	sprite->update(deltaTime);
 
 	if (!MoveRight)
@@ -124,6 +124,13 @@ void Enemigo::update(int deltaTime)
 		
 
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+
+	//Este condicional permite que el enemigo no pueda colisionar con el jugador hasta que deje la colision actual
+	if (collisioning && puedeColisionar)
+	{
+		
+		puedeColisionar = false;
+	}
 	
 }
 
@@ -136,9 +143,21 @@ void Enemigo::free()
 
 bool Enemigo::playerContact(glm::ivec2 PlayerPosition)
 {
-	bool collision = false;
-
-	collision = (PlayerPosition == glm::ivec2(posPlayer.x + 16, posPlayer.y)) || (PlayerPosition == glm::ivec2(posPlayer.x - 16, posPlayer.y));
+	collisioning = false;
 	
-	return collision;
+	//calcula para los dos extremos inferiores del cuadrado del jugador si esta en contacto con alguno de los extremos inferiores del cuadrado del enemigo
+	collisioning = ((PlayerPosition.x >= posPlayer.x) && (PlayerPosition.x <= posPlayer.x + 1 *map->getTileSize())) || ((PlayerPosition.x + (1* map->getTileSize()) >= posPlayer.x) && ((PlayerPosition.x + +(1 * map->getTileSize()) <= posPlayer.x + 1 * map->getTileSize())));
+
+	if (collisioning)
+	{
+		//una vez sabemos que en x estamos tocando enemigo con jugador miro si en y passa lo mismo
+		collisioning = (PlayerPosition.y <= posPlayer.y) && (PlayerPosition.y >= posPlayer.y - 2*map->getTileSize());
+	}
+	// en el momento que deja de colisionar con el jugador puede volver a colisionar
+	if (!collisioning)
+	{
+		puedeColisionar = true;
+	}
+	
+	return puedeColisionar && collisioning;
 }

@@ -16,5 +16,7 @@ public:
 private:
 
 	bool MoveRight;
+	bool puedeColisionar;
+	bool collisioning;
 };
 
