@@ -47,7 +47,7 @@ void Menu::render()
 	switch (optionSelected)
 	{
 	case options::Play:
-
+		
 		modelview = glm::mat4(1.0f);
 		modelview = glm::translate(modelview, glm::vec3(-50.f, 0.f, 0.f));
 		modelview = glm::translate(modelview, glm::vec3((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f, 0.f));
@@ -162,6 +162,7 @@ void Menu::pressEnter()
 void Menu::functionPLAY()
 {
 	openMenu = false;
+	
 }
 
 void Menu::functionOPTIONS()

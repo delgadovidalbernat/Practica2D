@@ -36,7 +36,7 @@ public:
 	bool collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const;
 	bool collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const;
 
-	Enemigo* getEnemy();
+	vector<Enemigo*> getEnemys();
 	
 private:
 	bool loadLevel(const string &levelFile);
@@ -51,7 +51,7 @@ private:
 	Texture tilesheet;
 	glm::vec2 tileTexSize;
 	int *map;
-	Enemigo* enemy;
+	vector<Enemigo*> enemys;
 };
 
 

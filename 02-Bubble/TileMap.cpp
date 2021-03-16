@@ -20,7 +20,9 @@ TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoo
 TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
 	
 {
-	enemy = NULL;
+	for (auto e : enemys)
+		e = NULL;
+	
 	loadLevel(levelFile);
 	prepareArrays(minCoords, program);
 	
@@ -43,15 +45,22 @@ void TileMap::render() const
 	glDrawArrays(GL_TRIANGLES, 0, 6 * mapSize.x * mapSize.y);
 	glDisable(GL_TEXTURE_2D);
 
-	if(enemy != NULL)
-	enemy->render();
-	
+	for (auto e : enemys)
+	{
+
+		if(e != NULL)
+			e->render();
+	}
+
 }
 
 void TileMap::update(float deltaTime)
 {
-	if(enemy != NULL)
-		enemy->update(deltaTime);
+	for (auto e : enemys)
+	{
+		if (e != NULL)
+			e->update(deltaTime);
+	}
 }
 
 void TileMap::free()
@@ -131,10 +140,11 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 			if (tile == 5)
 			{
 
-				enemy = new Enemigo();
-				enemy->init(glm::ivec2(32, 16), program);
-				enemy->setPosition(glm::vec2(i * getTileSize(), (j-1) * getTileSize()));
-				enemy->setTileMap(this);
+				enemys.push_back(new Enemigo());
+				int LastEnemy = enemys.size()-1;
+				enemys[LastEnemy]->init(glm::ivec2(32, 16), program);
+				enemys[LastEnemy]->setPosition(glm::vec2(i * getTileSize(), (j-1) * getTileSize()));
+				enemys[LastEnemy]->setTileMap(this);
 				map[j * mapSize.x + i] = 0;
 				
 			}else
@@ -257,9 +267,9 @@ bool TileMap::collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size, int
 	return false;
 }
 
-Enemigo* TileMap::getEnemy()
+vector<Enemigo*> TileMap::getEnemys()
 {
-	return enemy;
+	return enemys;
 }
 
 

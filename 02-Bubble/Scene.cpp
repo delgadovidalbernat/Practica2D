@@ -85,9 +85,19 @@ void Scene::update(int deltaTime)
 		
 	}
 
-	if (map->getEnemy() != NULL)
+	vector<Enemigo*> enemys = map->getEnemys();
+	
+	for (auto e : enemys)
 	{
-		Game::instance().setbWin(map->getEnemy()->playerContact(player->getPosPlayer()));
+
+		if (e != NULL) {
+
+			if (e->playerContact(player->getPosPlayer()))
+			{
+				Game::instance().setbWin(true);
+			}
+			
+		}
 	}
 	
 }
