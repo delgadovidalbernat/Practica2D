@@ -1,6 +1,6 @@
 #pragma once
 #include "Texture.h"
-#include "ShaderProgram.h";
+#include "ShaderProgram.h"
 
 class TextWriter
 {

@@ -17,7 +17,7 @@ Scene::Scene()
 {
 	map = NULL;
 	player = NULL;
-	enemy = NULL;
+
 }
 
 Scene::~Scene()
@@ -26,24 +26,20 @@ Scene::~Scene()
 		delete map;
 	if(player != NULL)
 		delete player;
-	if (enemy != NULL)
-		delete enemy;
+
 }
 
 
 void Scene::init()
 {
+
+	pantalla = numPantalla::primer;
 	initShaders();
 	map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	player->setTileMap(map);
-
-	enemy = new Enemigo();
-	enemy->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	enemy->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	enemy->setTileMap(map);
 	
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
@@ -55,12 +51,11 @@ void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	player->update(deltaTime);
-
-	enemy->update(deltaTime);
+	map->update(deltaTime);
 
 	//Si el jugador se pone en esa posicion bWin se pone a true y se activa el mecanismo de partida ganada, por detras se
 	//pone al jugador en la posicion del principio
-	if (player->getPosPlayer() == glm::ivec2(34*map->getTileSize(),25*map->getTileSize()))
+	if (player->getPosPlayer().x == (34*map->getTileSize()))
 	{
 		//Game::instance().setbWin(true);
 		glm::ivec2 pos = player->getPosPlayer();
@@ -72,9 +67,29 @@ void Scene::update(int deltaTime)
 		map->free();
 		map = TileMap::createTileMap("levels/level02.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 		player->setTileMap(map);
+		pantalla = numPantalla::segon;
+		
+	}else if(player->getPosPlayer().x == (0 * map->getTileSize()))
+	{
 
-		enemy->setTileMap(map);
+		glm::ivec2 pos = player->getPosPlayer();
+		player->setPosition(glm::vec2(34 * map->getTileSize(), player->getPosPlayer().y));
+
+		//voy a tener un vector de mapas que segun posicion se intercanvien para dar la sensacion de continuidad
+		//no es necessario limpiarlpos de memoria ya que necessito guardar el estado anterior en el que los dejo el jugador
+		//asi a la par de ahorrar render doy sensacion de permanencia.
+		map->free();
+		map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
+		player->setTileMap(map);
+		pantalla = numPantalla::primer;
+		
 	}
+
+	if (map->getEnemy() != NULL)
+	{
+		Game::instance().setbWin(map->getEnemy()->playerContact(player->getPosPlayer()));
+	}
+	
 }
 
 void Scene::render()
@@ -89,9 +104,7 @@ void Scene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
 	player->render();
-
-	enemy->render();
-
+	
 	if (Menu::instance().getOpenMenu())
 	{
 

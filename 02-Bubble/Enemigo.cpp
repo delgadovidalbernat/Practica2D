@@ -10,6 +10,7 @@ Enemigo::Enemigo()
 
 }
 
+
 void Enemigo::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 {
 	
@@ -80,9 +81,64 @@ void Enemigo::update(int deltaTime)
 		}
 		
 	}
+
+	
+	if(!bJumping){
 		
+		posPlayer.y += 4;
+		posPlayer.x += 20;
+		
+		if (!map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
+		{
+			
+			MoveRight = !MoveRight;
+			posPlayer.y -= 4;
+		}
+		posPlayer.x -= 20;
+
+		posPlayer.y += 4;
+		posPlayer.x -= 20;
+
+		if (!map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
+		{
+
+			MoveRight = !MoveRight;
+			posPlayer.y -= 4;
+		}
+		posPlayer.x += 20;
+
+		posPlayer.y += 4;
+		if (!map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
+		{
+			bJumping = true;
+			posPlayer.y -= 4;
+		}
+
+		
+	}else
+	{
+
+		posPlayer.y += 4;
+		bJumping = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
+	}
 		
 
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	
+}
+
+void Enemigo::free()
+{
+	
+	delete this;
+	
+}
+
+bool Enemigo::playerContact(glm::ivec2 PlayerPosition)
+{
+	bool collision = false;
+
+	collision = (PlayerPosition == glm::ivec2(posPlayer.x + 16, posPlayer.y)) || (PlayerPosition == glm::ivec2(posPlayer.x - 16, posPlayer.y));
+	
+	return collision;
 }

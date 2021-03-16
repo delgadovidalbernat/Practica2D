@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include "TileMap.h"
+#include "Enemigo.h"
 
 
 using namespace std;
@@ -17,9 +18,12 @@ TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoo
 
 
 TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
+	
 {
+	enemy = NULL;
 	loadLevel(levelFile);
 	prepareArrays(minCoords, program);
+	
 }
 
 TileMap::~TileMap()
@@ -38,6 +42,16 @@ void TileMap::render() const
 	glEnableVertexAttribArray(texCoordLocation);
 	glDrawArrays(GL_TRIANGLES, 0, 6 * mapSize.x * mapSize.y);
 	glDisable(GL_TEXTURE_2D);
+
+	if(enemy != NULL)
+	enemy->render();
+	
+}
+
+void TileMap::update(float deltaTime)
+{
+	if(enemy != NULL)
+		enemy->update(deltaTime);
 }
 
 void TileMap::free()
@@ -113,6 +127,17 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 		for(int i=0; i<mapSize.x; i++)
 		{
 			tile = map[j * mapSize.x + i];
+
+			if (tile == 5)
+			{
+
+				enemy = new Enemigo();
+				enemy->init(glm::ivec2(32, 16), program);
+				enemy->setPosition(glm::vec2(i * getTileSize(), (j-1) * getTileSize()));
+				enemy->setTileMap(this);
+				map[j * mapSize.x + i] = 0;
+				
+			}else
 			if(tile != 0)
 			{
 				// Non-empty tile
@@ -230,6 +255,11 @@ bool TileMap::collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size, int
 	}
 
 	return false;
+}
+
+Enemigo* TileMap::getEnemy()
+{
+	return enemy;
 }
 
 

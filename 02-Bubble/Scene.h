@@ -13,6 +13,11 @@
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
 
+enum numPantalla
+{
+
+	primer, segon, tercer, cuart, cinque
+};
 
 class Scene
 {
@@ -36,7 +41,8 @@ private:
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
-
+	numPantalla pantalla;
+	
 };
 
 

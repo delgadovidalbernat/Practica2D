@@ -3,9 +3,11 @@
 
 
 #include <glm/glm.hpp>
+
+
 #include "Texture.h"
 #include "ShaderProgram.h"
-
+class Enemigo;
 
 // Class Tilemap is capable of loading a tile map from a text file in a very
 // simple format (see level01.txt for an example). With this information
@@ -24,6 +26,7 @@ public:
 	~TileMap();
 
 	void render() const;
+	void update(float deltaTime);
 	void free();
 	
 	int getTileSize() const { return tileSize; }
@@ -32,6 +35,8 @@ public:
 	bool collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) const;
 	bool collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const;
 	bool collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const;
+
+	Enemigo* getEnemy();
 	
 private:
 	bool loadLevel(const string &levelFile);
@@ -46,7 +51,7 @@ private:
 	Texture tilesheet;
 	glm::vec2 tileTexSize;
 	int *map;
-
+	Enemigo* enemy;
 };
 
 

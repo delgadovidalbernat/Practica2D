@@ -118,7 +118,7 @@ void Player::update(int deltaTime)
 
 void Player::render()
 {
-	sprite->render();
+   	sprite->render();
 }
 
 void Player::setTileMap(TileMap *tileMap)

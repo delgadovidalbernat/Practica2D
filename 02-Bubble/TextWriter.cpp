@@ -64,7 +64,7 @@ void TextWriter::usarLetra(char letra, glm::vec2 geo[2], float spaceAmongLetters
 void TextWriter::init(char Letra, glm::vec2 geom[2])
 {
 
-	usarLetra(Letra, geom, 0.003);
+	usarLetra(Letra, geom, 0.003f);
 
 }
 
