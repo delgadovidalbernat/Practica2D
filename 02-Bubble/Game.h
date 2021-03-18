@@ -42,6 +42,7 @@ public:
 	
 	bool getKey(int key) const;
 	bool getSpecialKey(int key) const;
+	bool getGodMode();
 
 private:
 	bool bPlay;                       // Continue to play game?
@@ -50,6 +51,7 @@ private:
 									  // we can have access at any time
 	//Poner esta variable a true desde donde sea hace que se gane la partida
 	bool bWin;
+	bool godMode;
 
 };
 

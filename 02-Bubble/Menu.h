@@ -2,6 +2,8 @@
 #include <GL/glew.h>
 #include <glm/vec2.hpp>
 
+
+#include "OptionsMenu.h"
 #include "Texture.h"
 #include "ShaderProgram.h"
 #include "TextManager.h"
@@ -45,14 +47,17 @@ public:
 
 private:
 
+	void renderMenu();
 	
 	TextManager* TxtManager[3];
 	glm::mat4 projection;
 	glm::mat4 modelview;
 	ShaderProgram texProgram;
 	bool openMenu;
+	bool openOptionsMenu;
 	int optionSelected;
 	float distanceAmongWords;
+	OptionsMenu optionsMenu;
 	
 };
 

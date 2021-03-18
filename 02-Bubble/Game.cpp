@@ -8,6 +8,7 @@
 void Game::init()
 {
 	bPlay = true;
+	godMode = false;
 	glClearColor(0.f, 0.f, 0.f, 1.0f);
 	level.init();
 }
@@ -106,6 +107,11 @@ bool Game::getKey(int key) const
 bool Game::getSpecialKey(int key) const
 {
 	return specialKeys[key];
+}
+
+bool Game::getGodMode()
+{
+	return godMode;
 }
 
 void Game::setbWin(bool bWin)

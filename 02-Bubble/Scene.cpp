@@ -48,8 +48,8 @@ void Scene::init()
 	pantalla = numPantalla::primer;
 	initShaders();
 
-	//el 3 se debe a que 3-1 = 2 que soin los mapas que ahora mismo tenemos en la carpeta
-	for (int i = 1; i<3; i++)
+	//el 3 se debe a que 6-1 = 5 que soin los mapas que ahora mismo tenemos en la carpeta
+	for (int i = 1; i<6; i++)
 	{
 		string pathMap = "levels/level0" + std::to_string(i) + ".txt";
 		maps.push_back(TileMap::createTileMap(pathMap, glm::vec2(SCREEN_X, SCREEN_Y), texProgram));

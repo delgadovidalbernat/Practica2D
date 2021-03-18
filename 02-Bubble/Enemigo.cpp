@@ -1,5 +1,7 @@
 #include "Enemigo.h"
 
+#include "Game.h"
+
 enum PlayerAnims
 {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT
@@ -143,6 +145,7 @@ void Enemigo::free()
 
 bool Enemigo::playerContact(glm::ivec2 PlayerPosition)
 {
+	
 	collisioning = false;
 	
 	//calcula para los dos extremos inferiores del cuadrado del jugador si esta en contacto con alguno de los extremos inferiores del cuadrado del enemigo
@@ -159,5 +162,5 @@ bool Enemigo::playerContact(glm::ivec2 PlayerPosition)
 		puedeColisionar = true;
 	}
 	
-	return puedeColisionar && collisioning;
+	return puedeColisionar && collisioning && !Game::instance().getGodMode();
 }

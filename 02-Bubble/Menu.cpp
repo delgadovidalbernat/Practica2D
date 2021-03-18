@@ -19,95 +19,23 @@ void Menu::buildMenu(ShaderProgram &program)
 	distanceAmongWords = 60.f;
 	optionSelected = options::Play;
 	openMenu = false;
+	openOptionsMenu = false;
 	texProgram = program;
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 
 	TxtManager[0] = TextManager::CreateTextManager(program, "PLAY", glm::vec2((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f));
 	TxtManager[1] = TextManager::CreateTextManager(program, "CONTROLS", glm::vec2((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::CONTROLS));
 	TxtManager[2] = TextManager::CreateTextManager(program, "EXIT", glm::vec2((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::Exit));
+
+	
 }
 
 void Menu::render()
 {
-	//limpiar la pantalla de color negro
-	glClearColor(0.f, 0.f, 0.f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	renderMenu();
 
-	//Configurar el shader por defecto para que las otras texturas que usan el shader no afecten a este
-	texProgram.setUniformMatrix4f("projection", projection);
-	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
-	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
-
-	//Declarar modelview para mover el cuadrado con la textura por el mapa
-	modelview = glm::mat4(1.0f);
-	texProgram.setUniformMatrix4f("modelview", modelview);
-
-	//Pintar las opciones guardadas en textManager
-
-	switch (optionSelected)
-	{
-	case options::Play:
-		
-		modelview = glm::mat4(1.0f);
-		modelview = glm::translate(modelview, glm::vec3(-50.f, 0.f, 0.f));
-		modelview = glm::translate(modelview, glm::vec3((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f, 0.f));
-		modelview = glm::scale(modelview, glm::vec3(1.15f, 1.15f, 1.f));
-		modelview = glm::translate(modelview, glm::vec3(-(SCREEN_WIDTH - 200.f) * 0.5f, -SCREEN_HEIGHT * 0.5f, 0.f));
-
-		
-		texProgram.setUniformMatrix4f("modelview", modelview);
-		TxtManager[0]->print();
-
-		modelview = glm::mat4(1.0f);
-		texProgram.setUniformMatrix4f("modelview", modelview);
-		TxtManager[1]->print();
-
-		modelview = glm::mat4(1.0f);
-		texProgram.setUniformMatrix4f("modelview", modelview);
-		TxtManager[2]->print();
-		break;
-	case options::CONTROLS:
-
-		modelview = glm::mat4(1.0f);
-		texProgram.setUniformMatrix4f("modelview", modelview);
-		TxtManager[0]->print();
-
-		modelview = glm::mat4(1.0f);
-		modelview = glm::translate(modelview, glm::vec3(-50.f, 0.f, 0.f));
-		modelview = glm::translate(modelview, glm::vec3((SCREEN_WIDTH - 200.f) * 0.5f, (SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::CONTROLS), 0.f));
-		modelview = glm::scale(modelview, glm::vec3(1.15f, 1.15f, 1.f));
-		modelview = glm::translate(modelview, glm::vec3(-(SCREEN_WIDTH - 200.f) * 0.5f, -(SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::CONTROLS), 0.f));
-
-		texProgram.setUniformMatrix4f("modelview", modelview);
-		TxtManager[1]->print();
-
-		modelview = glm::mat4(1.0f);
-		texProgram.setUniformMatrix4f("modelview", modelview);
-		TxtManager[2]->print();
-		break;
-		
-		
-	case options::Exit:
-
-		modelview = glm::mat4(1.0f);
-		texProgram.setUniformMatrix4f("modelview", modelview);
-		TxtManager[0]->print();
-
-		modelview = glm::mat4(1.0f);
-		texProgram.setUniformMatrix4f("modelview", modelview);
-		TxtManager[1]->print();
-
-		modelview = glm::mat4(1.0f);
-		modelview = glm::translate(modelview, glm::vec3(-50.f, 0.f, 0.f));
-		modelview = glm::translate(modelview, glm::vec3((SCREEN_WIDTH - 200.f) * 0.5f, (SCREEN_HEIGHT * 0.5f +distanceAmongWords * options::Exit), 0.f));
-		modelview = glm::scale(modelview, glm::vec3(1.15f, 1.15f, 1.f));
-		modelview = glm::translate(modelview, glm::vec3(-(SCREEN_WIDTH - 200.f) * 0.5f, -(SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::Exit), 0.f));
-
-		texProgram.setUniformMatrix4f("modelview", modelview);
-		TxtManager[2]->print();
-		break;
-	}
-	
+	if (openOptionsMenu)
+		optionsMenu.render();
 }
 
 void Menu::openMenuFunc()
@@ -131,11 +59,17 @@ void Menu::setOptionMenu(options o)
 
 void Menu::addOptionMenu(int addition)
 {
-	if ((addition > 0 && optionSelected != options::Exit) || (addition < 0 && optionSelected != options::Play))
+	if (!openOptionsMenu)
 	{
-		optionSelected = optionSelected + addition;
+		if ((addition > 0 && optionSelected != options::Exit) || (addition < 0 && optionSelected != options::Play))
+		{
+			optionSelected = optionSelected + addition;
+		}
+	}else{
+
+		//passar entre opciones de menu de opciones
 	}
- 	
+
 }
 
 void Menu::pressEnter()
@@ -167,12 +101,99 @@ void Menu::functionPLAY()
 
 void Menu::functionOPTIONS()
 {
+
+	openOptionsMenu = true;
+	
 }
 
 void Menu::functionEXIT()
 {
 
 	Game::instance().keyPressed(27);
+}
+
+void Menu::renderMenu()
+{
+
+	//limpiar la pantalla de color negro
+	glClearColor(0.f, 0.f, 0.f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//Configurar el shader por defecto para que las otras texturas que usan el shader no afecten a este
+	texProgram.setUniformMatrix4f("projection", projection);
+	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
+	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
+
+	//Declarar modelview para mover el cuadrado con la textura por el mapa
+	modelview = glm::mat4(1.0f);
+	texProgram.setUniformMatrix4f("modelview", modelview);
+
+	//Pintar las opciones guardadas en textManager
+
+	switch (optionSelected)
+	{
+	case options::Play:
+
+		modelview = glm::mat4(1.0f);
+		modelview = glm::translate(modelview, glm::vec3(-50.f, 0.f, 0.f));
+		modelview = glm::translate(modelview, glm::vec3((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f, 0.f));
+		modelview = glm::scale(modelview, glm::vec3(1.15f, 1.15f, 1.f));
+		modelview = glm::translate(modelview, glm::vec3(-(SCREEN_WIDTH - 200.f) * 0.5f, -SCREEN_HEIGHT * 0.5f, 0.f));
+
+
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[0]->print();
+
+		modelview = glm::mat4(1.0f);
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[1]->print();
+
+		modelview = glm::mat4(1.0f);
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[2]->print();
+		break;
+	case options::CONTROLS:
+
+		modelview = glm::mat4(1.0f);
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[0]->print();
+
+		modelview = glm::mat4(1.0f);
+		modelview = glm::translate(modelview, glm::vec3(-50.f, 0.f, 0.f));
+		modelview = glm::translate(modelview, glm::vec3((SCREEN_WIDTH - 200.f) * 0.5f, (SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::CONTROLS), 0.f));
+		modelview = glm::scale(modelview, glm::vec3(1.15f, 1.15f, 1.f));
+		modelview = glm::translate(modelview, glm::vec3(-(SCREEN_WIDTH - 200.f) * 0.5f, -(SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::CONTROLS), 0.f));
+
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[1]->print();
+
+		modelview = glm::mat4(1.0f);
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[2]->print();
+		break;
+
+
+	case options::Exit:
+
+		modelview = glm::mat4(1.0f);
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[0]->print();
+
+		modelview = glm::mat4(1.0f);
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[1]->print();
+
+		modelview = glm::mat4(1.0f);
+		modelview = glm::translate(modelview, glm::vec3(-50.f, 0.f, 0.f));
+		modelview = glm::translate(modelview, glm::vec3((SCREEN_WIDTH - 200.f) * 0.5f, (SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::Exit), 0.f));
+		modelview = glm::scale(modelview, glm::vec3(1.15f, 1.15f, 1.f));
+		modelview = glm::translate(modelview, glm::vec3(-(SCREEN_WIDTH - 200.f) * 0.5f, -(SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::Exit), 0.f));
+
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[2]->print();
+		break;
+	}
+
 }
 
 
