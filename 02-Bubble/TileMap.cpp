@@ -4,6 +4,7 @@
 #include <vector>
 #include "TileMap.h"
 #include "Enemigo.h"
+#include "EnemigoBasico.h"
 
 
 using namespace std;
@@ -140,7 +141,7 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 			if (tile == 5)
 			{
 
-				enemys.push_back(new Enemigo());
+				enemys.push_back(new EnemigoBasico());
 				int LastEnemy = enemys.size()-1;
 				enemys[LastEnemy]->init(glm::ivec2(32, 16), program);
 				enemys[LastEnemy]->setPosition(glm::vec2(i * getTileSize(), (j-1) * getTileSize()));
