@@ -114,11 +114,21 @@ void Player::update(int deltaTime)
 	}
 	
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+
+	if (health <= 0.f)
+		Game::instance().setBLose(true);
+
 }
 
 void Player::render()
 {
    	sprite->render();
+}
+
+void Player::restart()
+{
+	health = 100.f;
+	experience = 100.f;
 }
 
 void Player::setTileMap(TileMap *tileMap)
@@ -135,6 +145,22 @@ void Player::setPosition(const glm::vec2 &pos)
 glm::ivec2 Player::getPosPlayer()
 {
 	return posPlayer;
+}
+
+float Player::getHealth()
+{
+
+	return health;
+}
+
+void Player::setHealth(float life)
+{
+	health = life;
+}
+
+void Player::addHealth(float amountLife)
+{
+	health += amountLife;
 }
 
 

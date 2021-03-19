@@ -11,7 +11,7 @@
 
 enum options
 {
-	Play,
+	Play = 0,
 	CONTROLS,
 	Exit
 };
@@ -30,8 +30,8 @@ public:
 	}
 
 	
-	void  buildMenu(ShaderProgram& program);
-	void  render();
+	virtual void  buildMenu(ShaderProgram& program);
+	virtual void  render();
 	void  openMenuFunc();
 
 	void setOpenMenu(bool openMenu) { this->openMenu = openMenu;  }
@@ -45,7 +45,7 @@ public:
 	void functionOPTIONS();
 	void functionEXIT();
 
-private:
+protected:
 
 	void renderMenu();
 	
@@ -54,7 +54,6 @@ private:
 	glm::mat4 modelview;
 	ShaderProgram texProgram;
 	bool openMenu;
-	bool openOptionsMenu;
 	int optionSelected;
 	float distanceAmongWords;
 	OptionsMenu optionsMenu;

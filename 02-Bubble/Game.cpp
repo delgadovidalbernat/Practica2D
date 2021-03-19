@@ -8,9 +8,13 @@
 void Game::init()
 {
 	bPlay = true;
+	bLose = false;
+	bWin = false;
 	godMode = false;
 	glClearColor(0.f, 0.f, 0.f, 1.0f);
 	level.init();
+
+
 }
 
 bool Game::update(int deltaTime)
@@ -29,7 +33,17 @@ bool Game::update(int deltaTime)
 
 		Menu::instance().openMenuFunc();
 		bWin = false;
-		
+
+		level.restart();
+	}
+
+	if (bLose)
+	{
+
+		Menu::instance().openMenuFunc();
+		bLose = false;
+
+		level.restart();
 	}
 	
 	return bPlay;
@@ -112,6 +126,21 @@ bool Game::getSpecialKey(int key) const
 bool Game::getGodMode()
 {
 	return godMode;
+}
+
+void Game::setGodMode(bool bGodMode)
+{
+	godMode = bGodMode;
+}
+
+void Game::setBLose(bool b)
+{
+	bLose = b;
+}
+
+bool Game::getBLose()
+{
+	return bLose;
 }
 
 void Game::setbWin(bool bWin)

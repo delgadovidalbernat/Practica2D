@@ -16,6 +16,9 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="MenuComponent.h" />
+    <ClInclude Include="MenuComposite.h" />
+    <ClInclude Include="MenuLeafJugar.h" />
     <ClInclude Include="OptionsMenu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scene.h" />
@@ -33,6 +36,8 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MenuComposite.cpp" />
+    <ClCompile Include="MenuLeafJugar.cpp" />
     <ClCompile Include="OptionsMenu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />

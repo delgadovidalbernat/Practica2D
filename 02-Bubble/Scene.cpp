@@ -117,7 +117,8 @@ void Scene::update(int deltaTime)
 
 			if (e->playerContact(player->getPosPlayer()))
 			{
-				Game::instance().setbWin(true);
+				player->addHealth(-25.f);
+				//Game::instance().setbWin(true);
 			}
 			
 		}
@@ -144,6 +145,36 @@ void Scene::render()
 		Menu::instance().render();
 	}
 	
+}
+
+void Scene::reloadMap()
+{
+
+	for (auto m : maps)
+		m->free();
+
+	int sizeMaps = maps.size();
+	for(int i = 0; i<sizeMaps; i++)
+	{
+		maps.pop_back();
+	}
+
+	for (int i = 1; i < 6; i++)
+	{
+		string pathMap = "levels/level0" + std::to_string(i) + ".txt";
+		maps.push_back(TileMap::createTileMap(pathMap, glm::vec2(SCREEN_X, SCREEN_Y), texProgram));
+	}
+
+	player->restart();
+}
+
+void Scene::restart()
+{
+	reloadMap();
+	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * maps[0]->getTileSize(), INIT_PLAYER_Y_TILES * maps[0]->getTileSize()));
+	pantalla = numPantalla::primer;
+	player->setTileMap(maps[pantalla]);
+
 }
 
 

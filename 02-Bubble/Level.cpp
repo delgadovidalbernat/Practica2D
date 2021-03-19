@@ -4,6 +4,11 @@ Level::Level()
 {
 	scene = Scene::createScene();
 }
+void Level::restart()
+{
+	scene->restart();
+}
+
 
 void Level::init()
 {

@@ -19,7 +19,6 @@ void Menu::buildMenu(ShaderProgram &program)
 	distanceAmongWords = 60.f;
 	optionSelected = options::Play;
 	openMenu = false;
-	openOptionsMenu = false;
 	texProgram = program;
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 
@@ -27,14 +26,14 @@ void Menu::buildMenu(ShaderProgram &program)
 	TxtManager[1] = TextManager::CreateTextManager(program, "CONTROLS", glm::vec2((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::CONTROLS));
 	TxtManager[2] = TextManager::CreateTextManager(program, "EXIT", glm::vec2((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::Exit));
 
-	
+	optionsMenu.buildMenu(program);
 }
 
 void Menu::render()
 {
 	renderMenu();
 
-	if (openOptionsMenu)
+	if (optionsMenu.getOpenOptionsMenu())
 		optionsMenu.render();
 }
 
@@ -59,7 +58,7 @@ void Menu::setOptionMenu(options o)
 
 void Menu::addOptionMenu(int addition)
 {
-	if (!openOptionsMenu)
+	if (!optionsMenu.getOpenOptionsMenu())
 	{
 		if ((addition > 0 && optionSelected != options::Exit) || (addition < 0 && optionSelected != options::Play))
 		{
@@ -67,30 +66,37 @@ void Menu::addOptionMenu(int addition)
 		}
 	}else{
 
-		//passar entre opciones de menu de opciones
+		optionsMenu.addOptionMenu(addition);
 	}
 
 }
 
 void Menu::pressEnter()
 {
-	switch (optionSelected)
+	if (!optionsMenu.getOpenOptionsMenu()) {
+
+		switch (optionSelected)
+		{
+
+		case options::Play:
+
+			functionPLAY();
+			break;
+		case options::CONTROLS:
+
+			functionOPTIONS();
+			break;
+		case options::Exit:
+
+			functionEXIT();
+			break;
+		}
+		
+	}else
 	{
 
-	case options::Play:
-
-		functionPLAY();
-		break;
-	case options::CONTROLS:
-
-		functionOPTIONS();
-		break;
-	case options::Exit:
-
-		functionEXIT();
-		break;
+		optionsMenu.pressEnter();
 	}
-	
 }
 
 void Menu::functionPLAY()
@@ -102,7 +108,7 @@ void Menu::functionPLAY()
 void Menu::functionOPTIONS()
 {
 
-	openOptionsMenu = true;
+	optionsMenu.setOpenOptionsMenu(true);
 	
 }
 

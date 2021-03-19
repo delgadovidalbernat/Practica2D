@@ -31,15 +31,15 @@ public:
 	void init();
 	void update(int deltaTime);
 	void render();
-	void free();
-
+	void reloadMap();
+	void restart();
+	
 private:
 	void initShaders();
 
 private:
 	vector<TileMap*> maps;
 	Player *player;
-	Enemigo *enemy;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;

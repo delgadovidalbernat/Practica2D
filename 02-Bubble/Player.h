@@ -17,11 +17,17 @@ public:
 	virtual void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram);
 	virtual void update(int deltaTime);
 	void render();
+	void restart();
 	
 	void setTileMap(TileMap *tileMap);
 	void setPosition(const glm::vec2 &pos);
 
 	glm::ivec2 getPosPlayer();
+	
+	float getHealth();
+	void setHealth(float life);
+	void addHealth(float amountHealth);
+	
 	
 protected:
 	bool bJumping;
@@ -30,7 +36,8 @@ protected:
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
-
+	float health;
+	float experience;
 };
 
 
