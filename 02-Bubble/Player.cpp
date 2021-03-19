@@ -19,6 +19,9 @@ enum PlayerAnims
 
 void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 {
+	health = 100.f;
+	experience = 0.f;
+	
 	bJumping = false;
 	spritesheet.loadFromFile("images/bub.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(0.25, 0.25), &spritesheet, &shaderProgram);
@@ -128,7 +131,7 @@ void Player::render()
 void Player::restart()
 {
 	health = 100.f;
-	experience = 100.f;
+	experience = 0.f;
 }
 
 void Player::setTileMap(TileMap *tileMap)

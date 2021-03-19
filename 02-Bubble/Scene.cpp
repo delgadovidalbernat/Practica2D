@@ -138,8 +138,10 @@ void Scene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	maps[pantalla]->render();
 	player->render();
+
+	bool openMenu = Menu::instance().getOpenMenu();
 	
-	if (Menu::instance().getOpenMenu())
+	if (openMenu)
 	{
 
 		Menu::instance().render();

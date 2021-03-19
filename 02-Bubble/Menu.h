@@ -35,7 +35,7 @@ public:
 	void  openMenuFunc();
 
 	void setOpenMenu(bool openMenu) { this->openMenu = openMenu;  }
-	bool getOpenMenu() { return openMenu; }
+	bool getOpenMenu();
 	void update(float deltaTime);
 	void setOptionMenu(options o);
 	void addOptionMenu(int addition);

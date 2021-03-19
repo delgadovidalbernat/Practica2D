@@ -45,6 +45,11 @@ void Menu::openMenuFunc()
 	
 }
 
+bool Menu::getOpenMenu()
+{
+	return openMenu;
+}
+
 void Menu::update(float deltaTime)
 {
 	
@@ -101,7 +106,7 @@ void Menu::pressEnter()
 
 void Menu::functionPLAY()
 {
-	openMenu = false;
+  	openMenu = false;
 	
 }
 
