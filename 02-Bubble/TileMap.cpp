@@ -285,7 +285,7 @@ bool TileMap::canClimbUp(const glm::ivec2& pos, const glm::ivec2& size, int* pos
 
 	for (int x = x0; x <= x1; x++)
 	{
-		if (map[(y+3) * mapSize.x + x] == 9 || map[(y - 1) * mapSize.x + x] == 9)
+		if (map[(y+2) * mapSize.x + x] == 9 || map[(y-1) * mapSize.x + x] == 9)
 		{
 			if (map[(y - 1) * mapSize.x + x] != 9)
 			{
@@ -314,7 +314,7 @@ bool TileMap::canClimbDown(const glm::ivec2& pos, const glm::ivec2& size, int* p
 
 	for (int x = x0; x <= x1; x++)
 	{
-		if (map[(y + 3) * mapSize.x + x] == 9 || map[(y + 2) * mapSize.x + x] == 9)
+		if (map[(y + 3) * mapSize.x + x] == 9 || map[(y + 1) * mapSize.x + x] == 9)
 		{
 			if (map[(y + 3) * mapSize.x + x] != 9)
 			{
