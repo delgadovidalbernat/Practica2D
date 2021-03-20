@@ -15,6 +15,7 @@
     <ClInclude Include="Enemigo.h" />
     <ClInclude Include="EnemigoBasico.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuComponent.h" />
@@ -35,6 +36,7 @@
     <ClCompile Include="Enemigo.cpp" />
     <ClCompile Include="EnemigoBasico.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />

@@ -60,8 +60,13 @@ void Scene::init()
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * maps[0]->getTileSize(), INIT_PLAYER_Y_TILES * maps[0]->getTileSize()));
 	player->setTileMap(maps[0]);
 	
-	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
+	projection = glm::ortho(-50.f, float(SCREEN_WIDTH + 51), float(SCREEN_HEIGHT + 51), -50.f);
+	//projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
+
+	//creo la HUD
+	hud.buildHUD(texProgram);
+	
 	Menu::instance().buildMenu(texProgram);
 	Menu::instance().openMenuFunc();
 }
@@ -129,6 +134,9 @@ void Scene::update(int deltaTime)
 void Scene::render()
 {
 	glm::mat4 modelview;
+
+	
+	hud.render();
 
 	texProgram.use();
 	texProgram.setUniformMatrix4f("projection", projection);

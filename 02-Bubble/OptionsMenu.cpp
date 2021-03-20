@@ -37,11 +37,6 @@ void OptionsMenu::render()
 void OptionsMenu::renderOptionsMenu()
 {
 
-	
-
-	//limpiar la pantalla de color negro
-	glClearColor(0.f, 0.f, 0.f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//Configurar el shader por defecto para que las otras texturas que usan el shader no afecten a este
 	texProgram.setUniformMatrix4f("projection", projection);

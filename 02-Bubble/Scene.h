@@ -5,9 +5,11 @@
 #include <glm/glm.hpp>
 
 #include "Enemigo.h"
+#include "HUD.h"
 #include "ShaderProgram.h"
 #include "TileMap.h"
 #include "Player.h"
+#include "TextManager.h"
 
 
 // Scene contains all the entities of our game.
@@ -44,7 +46,7 @@ private:
 	float currentTime;
 	glm::mat4 projection;
 	int pantalla;
-	
+	HUD hud;
 	
 };
 
