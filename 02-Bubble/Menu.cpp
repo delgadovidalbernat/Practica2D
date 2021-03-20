@@ -25,7 +25,9 @@ void Menu::buildMenu(ShaderProgram &program)
 	TxtManager[0] = TextManager::CreateTextManager(program, "PLAY", glm::vec2((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f));
 	TxtManager[1] = TextManager::CreateTextManager(program, "CONTROLS", glm::vec2((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::CONTROLS));
 	TxtManager[2] = TextManager::CreateTextManager(program, "EXIT", glm::vec2((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::Exit));
-
+	TxtManager[3] = TextManager::CreateTextManager(program, "GAME", glm::vec2((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::Exit));
+	TxtManager[4] = TextManager::CreateTextManager(program, "OVER", glm::vec2((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::Exit));
+	
 	optionsMenu.buildMenu(program);
 }
 
@@ -107,7 +109,8 @@ void Menu::pressEnter()
 void Menu::functionPLAY()
 {
   	openMenu = false;
-	
+	Game::instance().setBLose(false);
+	Game::instance().setbWin(false);
 }
 
 void Menu::functionOPTIONS()
@@ -140,6 +143,21 @@ void Menu::renderMenu()
 	texProgram.setUniformMatrix4f("modelview", modelview);
 
 	//Pintar las opciones guardadas en textManager
+
+	if (Game::instance().getBLose())
+	{
+		modelview = glm::mat4(1.0f);
+		modelview = glm::translate(modelview, glm::vec3(-100.f, -250.f, 0.f));
+
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[3]->print();
+
+		modelview = glm::mat4(1.0f);
+		modelview = glm::translate(modelview, glm::vec3(100.f, -250.f, 0.f));
+
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		TxtManager[4]->print();
+	}
 
 	switch (optionSelected)
 	{

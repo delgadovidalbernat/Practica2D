@@ -21,7 +21,8 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 {
 	health = 100.f;
 	experience = 0.f;
-	
+
+	bClimbing = false;
 	bJumping = false;
 	spritesheet.loadFromFile("images/bub.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(0.25, 0.25), &spritesheet, &shaderProgram);
@@ -104,15 +105,36 @@ void Player::update(int deltaTime)
 	}
 	else
 	{
-		posPlayer.y += FALL_STEP;
-		if(map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
+		if (map->canClimb(posPlayer, glm::ivec2(32, 32), &posPlayer.y) && Game::instance().getSpecialKey(GLUT_KEY_UP))
 		{
-			if(Game::instance().getSpecialKey(GLUT_KEY_UP))
+			//En este caso no puede saltar pero si puede escalar(andar verticalmente)
+			bJumping = false;
+			bClimbing = true;
+			posPlayer.y -= 2;
+			startY = posPlayer.y;
+
+		}
+		else
+		{
+			if (!map->canClimb(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
 			{
-				bJumping = true;
-				jumpAngle = 0;
-				startY = posPlayer.y;
+				posPlayer.y += FALL_STEP;
 			}
+
+			if (map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
+			{
+				bClimbing = false;
+				
+				if (Game::instance().getSpecialKey(GLUT_KEY_UP))
+				{
+
+					bJumping = true;
+					jumpAngle = 0;
+					startY = posPlayer.y;
+
+				}
+			}
+
 		}
 	}
 	

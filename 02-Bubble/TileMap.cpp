@@ -125,6 +125,7 @@ bool TileMap::loadLevel(const string &levelFile)
 	return true;
 }
 
+//0 es una celda sin colision, 1,2,3,4 representa bloques, 5 representa enemigo basico, 9 representa escaleras
 void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 {
 	int tile, nTiles = 0;
@@ -147,6 +148,11 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 				enemys[LastEnemy]->setPosition(glm::vec2(i * getTileSize(), (j-1) * getTileSize()));
 				enemys[LastEnemy]->setTileMap(this);
 				map[j * mapSize.x + i] = 0;
+				
+			}else if(tile == 9)
+			{
+
+				
 				
 			}else
 			if(tile != 0)
@@ -198,7 +204,7 @@ bool TileMap::collisionMoveLeft(const glm::ivec2 &pos, const glm::ivec2 &size) c
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for(int y=y0; y<=y1; y++)
 	{
-		if(map[y*mapSize.x+x] != 0)
+		if(map[y*mapSize.x+x] > 0 && map[y * mapSize.x + x] <= 4)
 			return true;
 	}
 	
@@ -217,7 +223,7 @@ bool TileMap::collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) 
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for(int y=y0; y<=y1; y++)
 	{
-		if(map[y*mapSize.x+x] != 0)
+		if(map[y * mapSize.x + x] > 0 && map[y * mapSize.x + x] <= 4)
 			return true;
 	}
 	
@@ -235,7 +241,7 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 	y = (pos.y + size.y - 1) / tileSize;
 	for(int x=x0; x<=x1; x++)
 	{
-		if(map[y*mapSize.x+x] != 0)
+		if(map[y * mapSize.x + x] > 0 && map[y * mapSize.x + x] <= 4)
 		{
 			if(*posY - tileSize * y + size.y <= 4)
 			{
@@ -254,13 +260,34 @@ bool TileMap::collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size, int
 
 	x0 = pos.x / tileSize;
 	x1 = (pos.x + size.x - 5) / tileSize;
-	y0 = (pos.y) / tileSize;
+	y = (pos.y) / tileSize;
 
 	for (int x = x0; x <= x1; x++)
 	{
-		if (map[y0 * mapSize.x + x] != 0)
+		if (map[y * mapSize.x + x] > 0 && map[y * mapSize.x + x] <= 4)
 		{
 			
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool TileMap::canClimb(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const
+{
+
+	int x0, x1, y, y0;
+
+	x0 = pos.x / tileSize;
+	x1 = (pos.x + size.x - 5) / tileSize;
+	y = (pos.y) / tileSize;
+
+	for (int x = x0; x <= x1; x++)
+	{
+		if (map[y * mapSize.x + x] == 9)
+		{
+
 			return true;
 		}
 	}

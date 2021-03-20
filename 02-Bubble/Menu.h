@@ -49,7 +49,7 @@ protected:
 
 	void renderMenu();
 	
-	TextManager* TxtManager[3];
+	TextManager* TxtManager[5];
 	glm::mat4 projection;
 	glm::mat4 modelview;
 	ShaderProgram texProgram;

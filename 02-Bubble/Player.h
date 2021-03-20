@@ -31,6 +31,7 @@ public:
 	
 protected:
 	bool bJumping;
+	bool bClimbing;
 	glm::ivec2 tileMapDispl, posPlayer;
 	int jumpAngle, startY;
 	Texture spritesheet;
