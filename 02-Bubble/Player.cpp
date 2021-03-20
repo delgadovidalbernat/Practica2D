@@ -105,18 +105,37 @@ void Player::update(int deltaTime)
 	}
 	else
 	{
-		if (map->canClimb(posPlayer, glm::ivec2(32, 32), &posPlayer.y) && Game::instance().getSpecialKey(GLUT_KEY_UP))
+		int positionClimb;
+		if (map->canClimbUp(posPlayer, glm::ivec2(32, 32), &posPlayer.y, positionClimb) && Game::instance().getSpecialKey(GLUT_KEY_UP))
 		{
 			//En este caso no puede saltar pero si puede escalar(andar verticalmente)
 			bJumping = false;
 			bClimbing = true;
+			if (positionClimb != 0)
+			{
+				posPlayer.x = positionClimb*map->getTileSize();
+			}
+			
 			posPlayer.y -= 2;
 			startY = posPlayer.y;
 
+		}else if((Game::instance().getSpecialKey(GLUT_KEY_DOWN)) && map->canClimbDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y, positionClimb))
+		{
+
+			bJumping = false;
+			bClimbing = true;
+			if (positionClimb != 0)
+			{
+				posPlayer.x = positionClimb * map->getTileSize();
+			}
+			
+			posPlayer.y += 2;
+			startY = posPlayer.y;
 		}
 		else
 		{
-			if (!map->canClimb(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
+			int positionClimb;
+			if (!map->canClimbUp(posPlayer, glm::ivec2(32, 32), &posPlayer.y, positionClimb))
 			{
 				posPlayer.y += FALL_STEP;
 			}

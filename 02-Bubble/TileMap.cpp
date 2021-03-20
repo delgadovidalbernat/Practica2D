@@ -274,19 +274,57 @@ bool TileMap::collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size, int
 	return false;
 }
 
-bool TileMap::canClimb(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const
+bool TileMap::canClimbUp(const glm::ivec2& pos, const glm::ivec2& size, int* posY, int& positionClimb) const
 {
 
 	int x0, x1, y, y0;
 
 	x0 = pos.x / tileSize;
-	x1 = (pos.x + size.x - 5) / tileSize;
+	x1 = ((pos.x + size.x - 5) / tileSize);
 	y = (pos.y) / tileSize;
 
 	for (int x = x0; x <= x1; x++)
 	{
-		if (map[y * mapSize.x + x] == 9)
+		if (map[(y+3) * mapSize.x + x] == 9 || map[(y - 1) * mapSize.x + x] == 9)
 		{
+			if (map[(y - 1) * mapSize.x + x] != 9)
+			{
+				positionClimb = 0;
+			}else
+			{
+
+				positionClimb = x;
+			}
+			
+  			return true;
+		}
+	}
+
+	return false;
+}
+
+bool TileMap::canClimbDown(const glm::ivec2& pos, const glm::ivec2& size, int* posY, int& positionClimb) const
+{
+
+	int x0, x1, y, y0;
+
+	x0 = pos.x / tileSize;
+	x1 = ((pos.x + size.x - 5) / tileSize);
+	y = (pos.y) / tileSize;
+
+	for (int x = x0; x <= x1; x++)
+	{
+		if (map[(y + 3) * mapSize.x + x] == 9 || map[(y + 2) * mapSize.x + x] == 9)
+		{
+			if (map[(y + 3) * mapSize.x + x] != 9)
+			{
+				positionClimb = 0;
+			}
+			else
+			{
+
+				positionClimb = x;
+			}
 
 			return true;
 		}
