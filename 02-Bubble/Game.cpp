@@ -45,6 +45,7 @@ bool Game::update(int deltaTime)
 		{
 			level.restart();
 			bNeedToRestart = false;
+			friendsSafed = 0;
 		}
 	}
 

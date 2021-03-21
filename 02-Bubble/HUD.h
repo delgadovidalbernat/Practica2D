@@ -18,7 +18,7 @@ public:
 	
 private:
 
-	TextManager* TxtManager[3];
+	TextManager* TxtManager[3  ];
 	glm::mat4 projection;
 	glm::mat4 modelview;
 	ShaderProgram texProgram;
