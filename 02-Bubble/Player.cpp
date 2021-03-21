@@ -160,7 +160,11 @@ void Player::update(int deltaTime)
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 
 	if (health <= 0.f)
+	{
 		Game::instance().setBLose(true);
+		Game::instance().setNeedToRestart(true);
+	}
+		
 
 }
 

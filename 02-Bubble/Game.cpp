@@ -7,14 +7,13 @@
 
 void Game::init()
 {
+	bNeedToRestart = false;
 	bPlay = true;
 	bLose = false;
 	bWin = false;
 	godMode = false;
 	glClearColor(0.f, 0.f, 0.f, 1.0f);
 	level.init();
-
-
 }
 
 bool Game::update(int deltaTime)
@@ -33,15 +32,24 @@ bool Game::update(int deltaTime)
 
 		Menu::instance().openMenuFunc();
 		bWin = false;
-		level.restart();
+		if (bNeedToRestart)
+		{
+			level.restart();
+			bNeedToRestart = false;
+		}
 	}
 
 	if (bLose)
 	{
 
 		Menu::instance().openMenuFunc();
-		bLose = false;
-		level.restart();
+
+		if (bNeedToRestart)
+		{
+			level.restart();
+			bNeedToRestart = false;
+		}
+		
 	}
 	
 	return bPlay;
@@ -69,6 +77,13 @@ void Game::keyPressed(int key)
 	if (Menu::instance().getOpenMenu() && key == 13)//13 es el ascii de enter
 	{
 		Menu::instance().pressEnter();
+	}
+
+	//al darle a la W se gana
+	if(key == 87)
+	{
+		bWin = true;
+		bNeedToRestart = true;
 	}
 	
 	keys[key] = true;
@@ -139,6 +154,11 @@ void Game::setBLose(bool b)
 bool Game::getBLose()
 {
 	return bLose;
+}
+
+void Game::setNeedToRestart(bool value)
+{
+	bNeedToRestart = value;
 }
 
 void Game::setbWin(bool bWin)

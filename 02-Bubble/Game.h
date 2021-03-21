@@ -48,6 +48,7 @@ public:
 
 	void setBLose(bool b);
 	bool getBLose();
+	void setNeedToRestart(bool value);
 
 private:
 	bool bPlay;                       // Continue to play game?
@@ -57,6 +58,7 @@ private:
 	//Poner esta variable a true desde donde sea hace que se gane la partida
 	bool bWin;
 	bool bLose;
+	bool bNeedToRestart;
 	bool godMode;
 };
 
