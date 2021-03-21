@@ -73,6 +73,11 @@ void TileMap::free()
 		e->free();
 		
 	}
+
+	while (!enemys.empty())
+	{
+		enemys.pop_back();
+	}
 }
 
 bool TileMap::loadLevel(const string &levelFile)
