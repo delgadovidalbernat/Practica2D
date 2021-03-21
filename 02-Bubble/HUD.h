@@ -1,4 +1,5 @@
 #pragma once
+#include "Quad.h"
 #include "TextManager.h"
 class ShaderProgram;
 
@@ -9,6 +10,8 @@ public:
 
 	HUD();
 	void buildHUD(ShaderProgram& program);
+	void updateHealth(float amount);
+	void updateExperience();
 
 	void render();
 	
@@ -19,6 +22,11 @@ private:
 	glm::mat4 modelview;
 	ShaderProgram texProgram;
 	float distanceAmongWords;
+
+	float healthAmount;
+	float experienceAmount;
+	
+	Quad* health;
 	
 };
 

@@ -67,7 +67,12 @@ void TileMap::update(float deltaTime)
 void TileMap::free()
 {
 	glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
+	for (auto e : enemys) {
 
+		e->free();
+		
+	}
 }
 
 bool TileMap::loadLevel(const string &levelFile)

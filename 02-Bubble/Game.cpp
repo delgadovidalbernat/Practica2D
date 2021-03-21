@@ -32,7 +32,7 @@ bool Game::update(int deltaTime)
 	{
 
 		Menu::instance().openMenuFunc();
-
+		bWin = false;
 		level.restart();
 	}
 
@@ -40,7 +40,7 @@ bool Game::update(int deltaTime)
 	{
 
 		Menu::instance().openMenuFunc();
-
+		bLose = false;
 		level.restart();
 	}
 	

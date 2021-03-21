@@ -123,7 +123,7 @@ void Scene::update(int deltaTime)
 			if (e->playerContact(player->getPosPlayer()))
 			{
 				player->addHealth(-25.f);
-				//Game::instance().setbWin(true);
+				hud.updateHealth(player->getHealth());
 			}
 			
 		}
@@ -159,23 +159,23 @@ void Scene::render()
 
 void Scene::reloadMap()
 {
-
+	
 	for (auto m : maps)
 		m->free();
-
-	int sizeMaps = maps.size();
-	for(int i = 0; i<sizeMaps; i++)
+	
+	while(!maps.empty())
 	{
 		maps.pop_back();
 	}
-
+	
 	for (int i = 1; i < 6; i++)
 	{
 		string pathMap = "levels/level0" + std::to_string(i) + ".txt";
 		maps.push_back(TileMap::createTileMap(pathMap, glm::vec2(SCREEN_X, SCREEN_Y), texProgram));
 	}
-
+	
 	player->restart();
+	hud.updateHealth(player->getHealth());
 }
 
 void Scene::restart()
