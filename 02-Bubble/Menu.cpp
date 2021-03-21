@@ -111,6 +111,7 @@ void Menu::functionPLAY()
   	openMenu = false;
 	Game::instance().setBLose(false);
 	Game::instance().setbWin(false);
+	Game::instance().setFriendsSafed(0);
 }
 
 void Menu::functionOPTIONS()

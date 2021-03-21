@@ -50,6 +50,10 @@ public:
 	bool getBLose();
 	void setNeedToRestart(bool value);
 
+	int getFriendsSafed();
+	void setFriendsSafed(int amount);
+	void addFriendSafed();
+
 private:
 	bool bPlay;                       // Continue to play game?
 	Level level;                      // Scene to render
@@ -60,6 +64,8 @@ private:
 	bool bLose;
 	bool bNeedToRestart;
 	bool godMode;
+
+	int friendsSafed;
 };
 
 

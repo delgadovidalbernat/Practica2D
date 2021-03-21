@@ -14,19 +14,22 @@ public:
 	void updateExperience();
 
 	void render();
+	void renderFriends();
 	
 private:
 
-	TextManager* TxtManager[2];
+	TextManager* TxtManager[3];
 	glm::mat4 projection;
 	glm::mat4 modelview;
 	ShaderProgram texProgram;
 	float distanceAmongWords;
+	float dispanceAmongFriendsIcon;
 
 	float healthAmount;
 	float experienceAmount;
 	
 	Quad* health;
+	Quad* friends;
 	
 };
 

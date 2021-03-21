@@ -7,6 +7,7 @@
 
 void Game::init()
 {
+	friendsSafed = 0;
 	bNeedToRestart = false;
 	bPlay = true;
 	bLose = false;
@@ -18,6 +19,14 @@ void Game::init()
 
 bool Game::update(int deltaTime)
 {
+	//esta misma accion hay que hacerla solo cuando entramos en contacto con un amigo en escena
+	//asi no habrà que comprovarlo cada frame
+	if (friendsSafed == 6)
+	{
+		bWin = true;
+		bNeedToRestart = true;
+	}
+	
 	if (!Menu::instance().getOpenMenu())
 	{
 		level.update(deltaTime);
@@ -79,11 +88,11 @@ void Game::keyPressed(int key)
 		Menu::instance().pressEnter();
 	}
 
-	//al darle a la W se gana
+	//al darle a la W se añade un amigo salvado
 	if(key == 87)
 	{
-		bWin = true;
-		bNeedToRestart = true;
+		
+		++friendsSafed;
 	}
 	
 	keys[key] = true;
@@ -159,6 +168,23 @@ bool Game::getBLose()
 void Game::setNeedToRestart(bool value)
 {
 	bNeedToRestart = value;
+}
+
+int Game::getFriendsSafed()
+{
+
+	return friendsSafed;
+}
+
+void Game::setFriendsSafed(int amount)
+{
+
+	friendsSafed = amount;
+}
+
+void Game::addFriendSafed()
+{
+	++friendsSafed;
 }
 
 void Game::setbWin(bool bWin)
