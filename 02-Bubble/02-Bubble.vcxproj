@@ -31,6 +31,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TextManager.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureQuad.h" />
     <ClInclude Include="TextWriter.h" />
     <ClInclude Include="TileMap.h" />
   </ItemGroup>
@@ -54,6 +55,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TextManager.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureQuad.cpp" />
     <ClCompile Include="TextWriter.cpp" />
     <ClCompile Include="TileMap.cpp" />
   </ItemGroup>

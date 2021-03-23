@@ -121,13 +121,16 @@ void Game::specialKeyPressed(int key)
 {
 	specialKeys[key] = true;
 
-	if (Menu::instance().getOpenMenu() && key == GLUT_KEY_UP)
-	{
-		Menu::instance().addOptionMenu(-1);
-	}
-	if (Menu::instance().getOpenMenu() && key == GLUT_KEY_DOWN)
-	{
-		Menu::instance().addOptionMenu(1);
+	if (!Credits::instance().getOpenCredits()) {
+
+		if (Menu::instance().getOpenMenu() && key == GLUT_KEY_UP)
+		{
+			Menu::instance().addOptionMenu(-1);
+		}
+		if (Menu::instance().getOpenMenu() && key == GLUT_KEY_DOWN)
+		{
+			Menu::instance().addOptionMenu(1);
+		}
 	}
 	
 }

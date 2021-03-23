@@ -25,6 +25,11 @@ void Credits::buildCredits(ShaderProgram& program)
 	TxtManager[4] = TextManager::CreateTextManager(program, "BERNAT", glm::vec2((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f + distanceAmongWords));
 	TxtManager[5] = TextManager::CreateTextManager(program, "DELGADO", glm::vec2((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f + distanceAmongWords));
 
+	glm::vec2 geom[2] = { glm::vec2(-250.f, 500.f), glm::vec2(750.f, 700.f) };
+	glm::vec2 texCoords[2] = { glm::vec2(0.f, 0.f), glm::vec2(1.f, 1.f) };
+	logoUPC = TexturedQuad::createTexturedQuad(geom, texCoords, program);
+	textLogo.loadFromFile("images/logoupc.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	
 	isBuild = true;
 }
 
@@ -98,6 +103,13 @@ void Credits::render()
 
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	TxtManager[5]->print();
+
+	modelview = glm::mat4(1.0f);
+	modelview = glm::translate(modelview, glm::vec3(0.f, -250.f + 100, 0.f));
+
+	
+	logoUPC->render(textLogo);
+	
 }
 
 

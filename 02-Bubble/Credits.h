@@ -1,5 +1,6 @@
 #pragma once
 #include "TextManager.h"
+#include "TextureQuad.h"
 class ShaderProgram;
 
 class Credits
@@ -34,7 +35,9 @@ private:
 	float distanceAmongWords;
 
 	bool isBuild;
-	
+
+	TexturedQuad* logoUPC;
+	Texture textLogo;
 	
 };
 
