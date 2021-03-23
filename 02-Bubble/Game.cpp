@@ -25,6 +25,7 @@ bool Game::update(int deltaTime)
 	{
 		bWin = true;
 		bNeedToRestart = true;
+		Credits::instance().setOpenCredits(true);
 	}
 	
 	if (!Menu::instance().getOpenMenu())
@@ -40,7 +41,9 @@ bool Game::update(int deltaTime)
 	{
 
 		Menu::instance().openMenuFunc();
+		
 		bWin = false;
+		
 		if (bNeedToRestart)
 		{
 			level.restart();
@@ -61,6 +64,8 @@ bool Game::update(int deltaTime)
 		}
 		
 	}
+
+	
 	
 	return bPlay;
 }
@@ -84,9 +89,17 @@ void Game::keyPressed(int key)
 		else 
 			Menu::instance().setOpenMenu(false);
 	*/
-	if (Menu::instance().getOpenMenu() && key == 13)//13 es el ascii de enter
+
+	if (Credits::instance().getOpenCredits() && key == 13)
 	{
+
+		Credits::instance().setOpenCredits(false);
+	}
+	else if (Menu::instance().getOpenMenu() && key == 13)//13 es el ascii de enter
+	{
+
 		Menu::instance().pressEnter();
+
 	}
 
 	//al darle a la W se añade un amigo salvado

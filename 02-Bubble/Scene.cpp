@@ -66,9 +66,17 @@ void Scene::init()
 
 	//creo la HUD
 	hud.buildHUD(texProgram);
-	
-	Menu::instance().buildMenu(texProgram);
-	Menu::instance().openMenuFunc();
+
+	if (!Menu::instance().getIsBuild())
+	{
+		Menu::instance().buildMenu(texProgram);
+		Menu::instance().openMenuFunc();
+	}
+
+	if (!Credits::instance().getIsBuild())
+	{
+		Credits::instance().buildCredits(texProgram);
+	}
 }
 
 void Scene::update(int deltaTime)
@@ -151,6 +159,11 @@ void Scene::render()
 	{
 
 		Menu::instance().render();
+	}
+
+	if (Credits::instance().getOpenCredits())
+	{
+		Credits::instance().render();
 	}
 	
 }

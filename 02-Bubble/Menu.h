@@ -45,6 +45,8 @@ public:
 	void functionOPTIONS();
 	void functionEXIT();
 
+	bool getIsBuild();
+
 protected:
 
 	void renderMenu();
@@ -57,6 +59,8 @@ protected:
 	int optionSelected;
 	float distanceAmongWords;
 	OptionsMenu optionsMenu;
+
+	bool isBuild;
 	
 };
 

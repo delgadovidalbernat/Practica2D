@@ -11,7 +11,7 @@
 
 Menu::Menu()
 {
-	
+	isBuild = false;
 }
 
 void Menu::buildMenu(ShaderProgram &program)
@@ -29,6 +29,7 @@ void Menu::buildMenu(ShaderProgram &program)
 	TxtManager[4] = TextManager::CreateTextManager(program, "OVER", glm::vec2((SCREEN_WIDTH - 200.f) * 0.5f, SCREEN_HEIGHT * 0.5f + distanceAmongWords * options::Exit));
 	
 	optionsMenu.buildMenu(program);
+	isBuild = true;
 }
 
 void Menu::render()
@@ -125,6 +126,11 @@ void Menu::functionEXIT()
 {
 
 	Game::instance().keyPressed(27);
+}
+
+bool Menu::getIsBuild()
+{
+	return isBuild;
 }
 
 void Menu::renderMenu()

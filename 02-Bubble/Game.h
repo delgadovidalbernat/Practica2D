@@ -2,6 +2,7 @@
 #define _GAME_INCLUDE
 
 
+#include "Credits.h"
 #include "Level.h"
 #include "MenuComposite.h"
 
