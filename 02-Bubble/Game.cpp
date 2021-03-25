@@ -107,6 +107,10 @@ void Game::keyPressed(int key)
 	{
 		
 		++friendsSafed;
+	}else if( key == 81 )
+	{
+
+		godMode = !godMode;
 	}
 	
 	keys[key] = true;
