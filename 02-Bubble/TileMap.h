@@ -42,6 +42,7 @@ public:
 	
 
 	vector<Enemigo*> getEnemys();
+	void setPosPlayer(glm::ivec2 posPlayer);
 	
 private:
 	bool loadLevel(const string &levelFile);
@@ -51,7 +52,7 @@ private:
 	GLuint vao;
 	GLuint vbo;
 	GLint posLocation, texCoordLocation;
-	glm::ivec2 position, mapSize, tilesheetSize;
+	glm::ivec2 position, mapSize, tilesheetSize, posPlayer;
 	int tileSize, blockSize;
 	Texture tilesheet;
 	glm::vec2 tileTexSize;

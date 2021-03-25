@@ -15,6 +15,7 @@
     <ClInclude Include="Credits.h" />
     <ClInclude Include="Enemigo.h" />
     <ClInclude Include="EnemigoBasico.h" />
+    <ClInclude Include="EnemigoComplejo.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Level.h" />
@@ -39,6 +40,7 @@
     <ClCompile Include="Credits.cpp" />
     <ClCompile Include="Enemigo.cpp" />
     <ClCompile Include="EnemigoBasico.cpp" />
+    <ClCompile Include="EnemigoComplejo.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Level.cpp" />

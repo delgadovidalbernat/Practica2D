@@ -23,6 +23,7 @@ public:
 	void setPosition(const glm::vec2 &pos);
 
 	glm::ivec2 getPosPlayer();
+	TileMap* getMap();
 	
 	float getHealth();
 	void setHealth(float life);
@@ -39,6 +40,8 @@ protected:
 	TileMap *map;
 	float health;
 	float experience;
+
+	float velocidad;
 };
 
 

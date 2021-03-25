@@ -195,6 +195,12 @@ glm::ivec2 Player::getPosPlayer()
 	return posPlayer;
 }
 
+TileMap* Player::getMap()
+{
+	return map;
+}
+
+
 float Player::getHealth()
 {
 

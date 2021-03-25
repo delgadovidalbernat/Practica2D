@@ -83,6 +83,8 @@ void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	player->update(deltaTime);
+
+	maps[pantalla]->setPosPlayer(player->getPosPlayer());
 	maps[pantalla]->update(deltaTime);
 
 	

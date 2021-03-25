@@ -19,6 +19,9 @@ void Enemigo::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	puedeColisionar = true;
 	MoveRight = false;
 	bJumping = false;
+
+	velocidad = 1.f;
+	
 	spritesheet.loadFromFile("images/bub.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(0.25, 0.25), &spritesheet, &shaderProgram);
 	sprite->setNumberAnimations(4);
@@ -163,4 +166,22 @@ bool Enemigo::playerContact(glm::ivec2 PlayerPosition)
 	}
 	
 	return puedeColisionar && collisioning && !Game::instance().getGodMode();
+}
+
+void Enemigo::setPuedeCollisionar(bool value)
+{
+
+	puedeColisionar = value;
+}
+
+bool Enemigo::getCollisioning()
+{
+
+	return collisioning;
+}
+
+bool Enemigo::getPuedeColisionar()
+{
+
+	return puedeColisionar;
 }

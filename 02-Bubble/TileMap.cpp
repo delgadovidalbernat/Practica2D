@@ -5,6 +5,7 @@
 #include "TileMap.h"
 #include "Enemigo.h"
 #include "EnemigoBasico.h"
+#include "EnemigoComplejo.h"
 
 
 using namespace std;
@@ -60,7 +61,21 @@ void TileMap::update(float deltaTime)
 	for (auto e : enemys)
 	{
 		if (e != NULL)
-			e->update(deltaTime);
+		{
+			
+			if (e->typeOf() == "EnemigoBasico")
+			{
+				e->update(deltaTime);
+				
+			}else
+			{
+				e->setPosTarget(posPlayer);
+				e->update(deltaTime);
+				
+			}
+			
+		}
+			
 	}
 }
 
@@ -149,7 +164,8 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 		{
 			tile = map[j * mapSize.x + i];
 
-			if (tile == 5)
+			//49 representa a
+			if (tile == 49)
 			{
 
 				enemys.push_back(new EnemigoBasico());
@@ -159,7 +175,17 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 				enemys[LastEnemy]->setTileMap(this);
 				map[j * mapSize.x + i] = 0;
 				
-			}else if(tile == 9)
+			}
+			else if (tile == 50) {
+
+				enemys.push_back(new EnemigoComplejo);
+				int LastEnemy = enemys.size() - 1;
+				enemys[LastEnemy]->init(glm::ivec2(32, 16), program);
+				enemys[LastEnemy]->setPosition(glm::vec2(i * getTileSize(), (j - 1) * getTileSize()));
+				enemys[LastEnemy]->setTileMap(this);
+				map[j * mapSize.x + i] = 0;
+				
+			}else if (tile == 9)
 			{
 
 				
@@ -346,6 +372,12 @@ bool TileMap::canClimbDown(const glm::ivec2& pos, const glm::ivec2& size, int* p
 vector<Enemigo*> TileMap::getEnemys()
 {
 	return enemys;
+}
+
+void TileMap::setPosPlayer(glm::ivec2 posPlayer)
+{
+
+	this->posPlayer = posPlayer;
 }
 
 
