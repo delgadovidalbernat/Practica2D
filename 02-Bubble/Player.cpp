@@ -216,7 +216,3 @@ void Player::addHealth(float amountLife)
 {
 	health += amountLife;
 }
-
-
-
-

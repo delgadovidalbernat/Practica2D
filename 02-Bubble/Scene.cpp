@@ -138,6 +138,18 @@ void Scene::update(int deltaTime)
 			
 		}
 	}
+
+	Friend* amigo = maps[pantalla]->getAmigo();
+
+	if (amigo != NULL)
+	{
+		if (amigo->playerContact(player->getPosPlayer()) && amigo->getPuedeColisionar())
+		{
+			amigo->setVisible(false);
+			Game::instance().addFriendSafed();
+			amigo->setPuedeColisionar(false);
+		}
+	}
 	
 }
 

@@ -24,6 +24,8 @@ TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProg
 {
 	for (auto e : enemys)
 		e = NULL;
+
+	amigo = NULL;
 	
 	loadLevel(levelFile);
 	prepareArrays(minCoords, program);
@@ -53,7 +55,12 @@ void TileMap::render() const
 		if(e != NULL)
 			e->render();
 	}
-
+	
+	if (amigo != NULL)
+	{
+		amigo->render();
+	}
+	
 }
 
 void TileMap::update(float deltaTime)
@@ -185,10 +192,19 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 				enemys[LastEnemy]->setTileMap(this);
 				map[j * mapSize.x + i] = 0;
 				
-			}else if (tile == 9)
+			}else if (tile == 8)
 			{
 
 				
+				
+			}else if(tile == 9)
+			{
+				
+				amigo = new Friend;
+				amigo->init(glm::ivec2(32, 16), program);
+				amigo->setPosition(glm::vec2(i+5 * getTileSize(), (j - 1) * getTileSize()));
+				amigo->setTileMap(this);
+				map[j * mapSize.x + i] = 0;
 				
 			}else
 			if(tile != 0)
@@ -321,9 +337,9 @@ bool TileMap::canClimbUp(const glm::ivec2& pos, const glm::ivec2& size, int* pos
 
 	for (int x = x0; x <= x1; x++)
 	{
-		if (map[(y+2) * mapSize.x + x] == 9 || map[(y-1) * mapSize.x + x] == 9)
+		if (map[(y+2) * mapSize.x + x] == 8 || map[(y-1) * mapSize.x + x] == 8)
 		{
-			if (map[(y - 1) * mapSize.x + x] != 9)
+			if (map[(y - 1) * mapSize.x + x] != 8)
 			{
 				positionClimb = 0;
 			}else
@@ -350,9 +366,9 @@ bool TileMap::canClimbDown(const glm::ivec2& pos, const glm::ivec2& size, int* p
 
 	for (int x = x0; x <= x1; x++)
 	{
-		if (map[(y + 3) * mapSize.x + x] == 9 || map[(y + 1) * mapSize.x + x] == 9)
+		if (map[(y + 3) * mapSize.x + x] == 8 || map[(y + 1) * mapSize.x + x] == 8)
 		{
-			if (map[(y + 3) * mapSize.x + x] != 9)
+			if (map[(y + 3) * mapSize.x + x] != 8)
 			{
 				positionClimb = 0;
 			}
@@ -372,6 +388,12 @@ bool TileMap::canClimbDown(const glm::ivec2& pos, const glm::ivec2& size, int* p
 vector<Enemigo*> TileMap::getEnemys()
 {
 	return enemys;
+}
+
+
+Friend* TileMap::getAmigo()
+{
+	return amigo;
 }
 
 void TileMap::setPosPlayer(glm::ivec2 posPlayer)

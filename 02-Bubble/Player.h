@@ -14,6 +14,7 @@ class Player
 {
 
 public:
+	
 	virtual void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram);
 	virtual void update(int deltaTime);
 	void render();
@@ -31,6 +32,7 @@ public:
 	
 	
 protected:
+	
 	bool bJumping;
 	bool bClimbing;
 	glm::ivec2 tileMapDispl, posPlayer;
