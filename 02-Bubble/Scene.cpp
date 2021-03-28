@@ -135,7 +135,9 @@ void Scene::update(int deltaTime)
 				player->addHealth(-25.f);
 				hud.updateHealth(player->getHealth());
 			}
-			
+
+			player->punchIfPossible(*e);
+
 		}
 	}
 

@@ -13,6 +13,9 @@ void EnemigoBasico::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProg
 	setMoveRight(false);
 	bJumping = false;
 
+	setHealth(100.f);
+	setCanRender(true);
+	setEstado(ALIVE);
 	velocidad = 1.f;
 
 	spritesheet.loadFromFile("images/calavera.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -123,6 +126,14 @@ void EnemigoBasico::update(int deltaTime)
 	{
 
 		setPuedeCollisionar(false);
+	}
+
+	if (getHealth() <= 0.f)
+	{
+
+		setPuedeCollisionar(false);
+		setCanRender(false);
+		
 	}
 }
 

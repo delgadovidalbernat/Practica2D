@@ -17,7 +17,7 @@ public:
 	
 	virtual void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram);
 	virtual void update(int deltaTime);
-	void render();
+	virtual void render();
 	void restart();
 	
 	void setTileMap(TileMap *tileMap);
@@ -29,7 +29,9 @@ public:
 	float getHealth();
 	void setHealth(float life);
 	void addHealth(float amountHealth);
-	
+
+	bool enemyContact(glm::fvec2 enemyPos);
+	void punchIfPossible(Enemigo &enemy);
 	
 protected:
 

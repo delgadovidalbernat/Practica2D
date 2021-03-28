@@ -19,7 +19,10 @@ void Enemigo::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	puedeColisionar = true;
 	MoveRight = false;
 	bJumping = false;
-
+	health = 100.f;
+	estado = ALIVE;
+	bCanRender = true;
+	
 	velocidad = 1.f;
 	
 	spritesheet.loadFromFile("images/bub.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -54,6 +57,15 @@ void Enemigo::free()
 	
 	delete this;
 	
+}
+
+void Enemigo::render()
+{
+	if (bCanRender)
+	{
+	
+		sprite->render();
+	}
 }
 
 bool Enemigo::playerContact(glm::ivec2 PlayerPosition)
@@ -112,4 +124,45 @@ void Enemigo::setMoveRight(bool value)
 {
 
 	MoveRight = value;
+}
+
+EnemyStat Enemigo::getEstado()
+{
+
+	return estado;
+}
+
+void Enemigo::setEstado(EnemyStat estado)
+{
+
+	this->estado = estado;
+}
+
+void Enemigo::setCanRender(bool value)
+{
+	bCanRender = value;
+}
+
+bool Enemigo::getCanRender()
+{
+
+	return bCanRender;
+}
+
+void Enemigo::setHealth(float value)
+{
+
+	health = value;
+}
+
+void Enemigo::addHealth(float value)
+{
+
+	health += value;
+}
+
+float Enemigo::getHealth()
+{
+
+	return health;
 }

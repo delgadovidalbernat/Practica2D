@@ -282,7 +282,7 @@ void Player::update(int deltaTime)
 		timeHitting = 0;
 	}
 
-	if (delayToHitAgain == 8)
+	if (delayToHitAgain == 15)
 	{
 		bCanHit = true;
 		delayToHitAgain = 0;
@@ -346,4 +346,23 @@ void Player::setHealth(float life)
 void Player::addHealth(float amountLife)
 {
 	health += amountLife;
+}
+
+bool Player::enemyContact(glm::fvec2 enemyPos)
+{
+	if ((enemyPos.y == posPlayer.y && sprite->animation() == HIT_RIGHT && enemyPos.x <= (posPlayer.x + 1.25*map->getTileSize())) || (enemyPos.y == posPlayer.y && sprite->animation() == HIT_LEFT && enemyPos.x >= (posPlayer.x - 1.25 * map->getTileSize())))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void Player::punchIfPossible(Enemigo& enemy)
+{
+	if (enemyContact(enemy.getPosPlayer()) && bhitting)
+	{
+
+		enemy.addHealth(-100);
+	}
 }
