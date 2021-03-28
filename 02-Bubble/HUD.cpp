@@ -53,16 +53,6 @@ void HUD::render()
 	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 
-	//dibujo el rectangulo que representa la vida
-	
-	texProgram.setUniform4f("color", 1.0f, .0f, .0f, 1.0f);
-	modelview = glm::mat4(1.0f);
-	modelview = glm::translate(modelview, glm::vec3(-50.f, 0.f, 0.f));
-	modelview = glm::translate(modelview, glm::vec3(((SCREEN_WIDTH - 200.f) * 0.5f) + 50, SCREEN_HEIGHT - 392, 0.f));
-	modelview = glm::scale(modelview, glm::vec3(0.3f, 0.3f, 1.f));
-	modelview = glm::translate(modelview, glm::vec3(-(SCREEN_WIDTH - 200.f) * 0.5f, -SCREEN_HEIGHT * 0.5f, 0.f));
-	texProgram.setUniformMatrix4f("modelview", modelview);
-	health->render();
 
 	//dibujo los rectangulos que representan los amigos
 
@@ -81,6 +71,18 @@ void HUD::render()
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	TxtManager[0]->print();
 	TxtManager[1]->print();
+
+	//dibujo el rectangulo que representa la vida
+
+	texProgram.setUniform4f("color", 1.0f, .0f, .0f, 1.0f);
+	modelview = glm::mat4(1.0f);
+	modelview = glm::translate(modelview, glm::vec3(-50.f, 0.f, 0.f));
+	modelview = glm::translate(modelview, glm::vec3(((SCREEN_WIDTH - 200.f) * 0.5f) + 50, SCREEN_HEIGHT - 392, 0.f));
+	modelview = glm::scale(modelview, glm::vec3(0.3f, 0.3f, 1.f));
+	modelview = glm::translate(modelview, glm::vec3(-(SCREEN_WIDTH - 200.f) * 0.5f, -SCREEN_HEIGHT * 0.5f, 0.f));
+	texProgram.setUniformMatrix4f("modelview", modelview);
+
+	health->render();
 
 }
 

@@ -84,6 +84,11 @@ void TileMap::update(float deltaTime)
 		}
 			
 	}
+
+	if (amigo != NULL)
+	{
+		amigo->update(deltaTime);
+	}
 }
 
 void TileMap::free()
@@ -192,11 +197,6 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 				enemys[LastEnemy]->setTileMap(this);
 				map[j * mapSize.x + i] = 0;
 				
-			}else if (tile == 8)
-			{
-
-				
-				
 			}else if(tile == 9)
 			{
 				
@@ -212,7 +212,7 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 				// Non-empty tile
 				nTiles++;
 				posTile = glm::vec2(minCoords.x + i * tileSize, minCoords.y + j * tileSize);
-				texCoordTile[0] = glm::vec2(float((tile-1)%2) / tilesheetSize.x, float((tile-1)/2) / tilesheetSize.y);
+				texCoordTile[0] = glm::vec2(float((tile-1)%4) / tilesheetSize.x, float((tile-1)/4) / tilesheetSize.y);
 				texCoordTile[1] = texCoordTile[0] + tileTexSize;
 				texCoordTile[0] += halfTexel;
 				texCoordTile[1] -= halfTexel;
@@ -227,7 +227,7 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 				vertices.push_back(posTile.x); vertices.push_back(posTile.y);
 				vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[0].y);
 				vertices.push_back(posTile.x + blockSize); vertices.push_back(posTile.y + blockSize);
-				vertices.push_back(texCoordTile[1].x); vertices.push_back(texCoordTile[1].y);
+				vertices.push_back(texCoordTile[1].x); vertices.push_back(texCoordTile[1].y); 
 				vertices.push_back(posTile.x); vertices.push_back(posTile.y + blockSize);
 				vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[1].y);
 			}
@@ -256,7 +256,7 @@ bool TileMap::collisionMoveLeft(const glm::ivec2 &pos, const glm::ivec2 &size) c
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for(int y=y0; y<=y1; y++)
 	{
-		if(map[y*mapSize.x+x] > 0 && map[y * mapSize.x + x] <= 4)
+		if(map[y*mapSize.x+x] > 0 && map[y * mapSize.x + x] <= 7)
 			return true;
 	}
 	
@@ -275,14 +275,14 @@ bool TileMap::collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) 
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for(int y=y0; y<=y1; y++)
 	{
-		if(map[y * mapSize.x + x] > 0 && map[y * mapSize.x + x] <= 4)
+		if(map[y * mapSize.x + x] > 0 && map[y * mapSize.x + x] <= 7)
 			return true;
 	}
 	
 	return false;
 }
 
-bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const
+bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, float *posY) const
 {
 	int x0, x1, y;
 	//solo se divide por el hecho que el personaje lo tenen,mos en coordenadas de juego
@@ -293,7 +293,7 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 	y = (pos.y + size.y - 1) / tileSize;
 	for(int x=x0; x<=x1; x++)
 	{
-		if(map[y * mapSize.x + x] > 0 && map[y * mapSize.x + x] <= 4)
+		if(map[y * mapSize.x + x] > 0 && map[y * mapSize.x + x] <= 7)
 		{
 			if(*posY - tileSize * y + size.y <= 4)
 			{
@@ -306,7 +306,7 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 	return false;
 }
 
-bool TileMap::collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const
+bool TileMap::collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size, float* posY) const
 {
 	int x0, x1, y, y0;
 
@@ -316,7 +316,7 @@ bool TileMap::collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size, int
 
 	for (int x = x0; x <= x1; x++)
 	{
-		if (map[y * mapSize.x + x] > 0 && map[y * mapSize.x + x] <= 4)
+		if (map[y * mapSize.x + x] > 0 && map[y * mapSize.x + x] <= 7)
 		{
 			
 			return true;
@@ -326,7 +326,7 @@ bool TileMap::collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size, int
 	return false;
 }
 
-bool TileMap::canClimbUp(const glm::ivec2& pos, const glm::ivec2& size, int* posY, int& positionClimb) const
+bool TileMap::canClimbUp(const glm::ivec2& pos, const glm::ivec2& size, float* posY, float& positionClimb) const
 {
 
 	int x0, x1, y, y0;
@@ -345,7 +345,7 @@ bool TileMap::canClimbUp(const glm::ivec2& pos, const glm::ivec2& size, int* pos
 			}else
 			{
 
-				positionClimb = x;
+				positionClimb = x - (.5f);
 			}
 			
   			return true;
@@ -355,7 +355,7 @@ bool TileMap::canClimbUp(const glm::ivec2& pos, const glm::ivec2& size, int* pos
 	return false;
 }
 
-bool TileMap::canClimbDown(const glm::ivec2& pos, const glm::ivec2& size, int* posY, int& positionClimb) const
+bool TileMap::canClimbDown(const glm::ivec2& pos, const glm::ivec2& size, float* posY, float& positionClimb) const
 {
 
 	int x0, x1, y, y0;
@@ -375,7 +375,7 @@ bool TileMap::canClimbDown(const glm::ivec2& pos, const glm::ivec2& size, int* p
 			else
 			{
 
-				positionClimb = x;
+				positionClimb = x - .5f;
 			}
 
 			return true;

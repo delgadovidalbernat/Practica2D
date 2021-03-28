@@ -44,6 +44,8 @@ protected:
 
 	bool collisioning;
 	bool puedeColisionar;
+
+	float framesBtwAnimations;
 	
 };
 

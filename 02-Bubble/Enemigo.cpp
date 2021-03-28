@@ -48,96 +48,6 @@ void Enemigo::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 
 }
 
-void Enemigo::update(int deltaTime)
-{
-	sprite->update(deltaTime);
-
-	if (!MoveRight)
-	{
-
-		if (sprite->animation() != MOVE_LEFT)
-			sprite->changeAnimation(MOVE_LEFT);
-
-		posPlayer.x -= 2;
-		
-		if (map->collisionMoveLeft(posPlayer, glm::ivec2(32, 32)))
-		{
-			MoveRight = true;
-			posPlayer.x += 2;
-			sprite->changeAnimation(MOVE_RIGHT);
-			
-		}
-		
-	}else
-	{
-
-		if (sprite->animation() != MOVE_RIGHT)
-			sprite->changeAnimation(MOVE_RIGHT);
-
-		posPlayer.x += 2;
-
-		if (map->collisionMoveRight(posPlayer, glm::ivec2(32, 32)))
-		{
-
-			MoveRight = false;
-			posPlayer.x -= 2;
-			sprite->changeAnimation(MOVE_LEFT);
-
-		}
-		
-	}
-
-	
-	if(!bJumping){
-		
-		posPlayer.y += 4;
-		posPlayer.x += 20;
-		
-		if (!map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
-		{
-			
-			MoveRight = !MoveRight;
-			posPlayer.y -= 4;
-		}
-		posPlayer.x -= 20;
-
-		posPlayer.y += 4;
-		posPlayer.x -= 20;
-
-		if (!map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
-		{
-
-			MoveRight = !MoveRight;
-			posPlayer.y -= 4;
-		}
-		posPlayer.x += 20;
-
-		posPlayer.y += 4;
-		if (!map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
-		{
-			bJumping = true;
-			posPlayer.y -= 4;
-		}
-
-		
-	}else
-	{
-
-		posPlayer.y += 4;
-		bJumping = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
-	}
-		
-
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
-
-	//Este condicional permite que el enemigo no pueda colisionar con el jugador hasta que deje la colision actual
-	if (collisioning && puedeColisionar)
-	{
-		
-		puedeColisionar = false;
-	}
-	
-}
 
 void Enemigo::free()
 {
@@ -174,6 +84,12 @@ void Enemigo::setPuedeCollisionar(bool value)
 	puedeColisionar = value;
 }
 
+void Enemigo::setCollisioning(bool value)
+{
+
+	collisioning = value;
+}
+
 bool Enemigo::getCollisioning()
 {
 
@@ -184,4 +100,16 @@ bool Enemigo::getPuedeColisionar()
 {
 
 	return puedeColisionar;
+}
+
+bool Enemigo::getMoveRight()
+{
+
+	return MoveRight;
+}
+
+void Enemigo::setMoveRight(bool value)
+{
+
+	MoveRight = value;
 }

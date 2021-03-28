@@ -32,18 +32,24 @@ public:
 	
 	
 protected:
-	
+
+	bool bhitting;
+	bool bCanHit;
 	bool bJumping;
 	bool bClimbing;
-	glm::ivec2 tileMapDispl, posPlayer;
+	glm::ivec2 tileMapDispl;
+	glm::fvec2 posPlayer;
 	int jumpAngle, startY;
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
 	float health;
 	float experience;
-
 	float velocidad;
+
+	int timeHitting;
+	int delayToHitAgain;
+	
 };
 
 

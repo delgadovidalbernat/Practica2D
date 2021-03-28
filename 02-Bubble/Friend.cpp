@@ -1,10 +1,11 @@
 #include "Friend.h"
 
+
 #include "Game.h"
 
-enum PlayerAnims
+enum FriendAnims
 {
-	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT
+	STAND_FRONT, CROUCH_FRONT
 };
 
 
@@ -20,18 +21,20 @@ void Friend::setTileMap(TileMap* tileMap)
 
 void Friend::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 {
-	
+	framesBtwAnimations = 0;
 	visible = true;
 	collisioning = false;
 	puedeColisionar = true;
 
-	spritesheet.loadFromFile("images/bub.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(0.25, 0.25), &spritesheet, &shaderProgram);
-	sprite->setNumberAnimations(4);
+	spritesheet.loadFromFile("images/amic.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(.5, 1.), &spritesheet, &shaderProgram);
+	sprite->setNumberAnimations(2);
 	
-	sprite->setAnimationSpeed(STAND_LEFT, 8);
-	sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 0.f));
-	sprite->changeAnimation(STAND_LEFT);
+	sprite->setAnimationSpeed(STAND_FRONT, 1);
+	sprite->addKeyframe(STAND_FRONT, glm::vec2(0.f, 0.f));
+
+	sprite->setAnimationSpeed(CROUCH_FRONT, 1);
+	sprite->addKeyframe(CROUCH_FRONT, glm::vec2(0.5f, 0.f));
 	
 	sprite->changeAnimation(0);
 	tileMapDispl = tileMapPos;
@@ -59,10 +62,26 @@ bool Friend::playerContact(glm::ivec2 PlayerPosition)
 
 void Friend::update(int deltaTime)
 {
-	if (true)
+
+	sprite->update(deltaTime);
+
+	if(framesBtwAnimations == 25)
 	{
+
+		if(sprite->animation() == STAND_FRONT)
+		{
 		
+			sprite->changeAnimation(CROUCH_FRONT);
+		}else
+		{
+		
+			sprite->changeAnimation(STAND_FRONT);
+		}
+
+		framesBtwAnimations = 0;
 	}
+	
+	++framesBtwAnimations;
 
 	if (collisioning && puedeColisionar)
 	{
