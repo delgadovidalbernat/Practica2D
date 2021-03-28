@@ -87,7 +87,7 @@ bool Enemigo::playerContact(glm::ivec2 PlayerPosition)
 		puedeColisionar = true;
 	}
 	
-	return puedeColisionar && collisioning && !Game::instance().getGodMode();
+	return puedeColisionar && collisioning && !Game::instance().getGodMode() && estado == ALIVE;
 }
 
 void Enemigo::setPuedeCollisionar(bool value)

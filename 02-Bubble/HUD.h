@@ -9,16 +9,24 @@ class HUD
 public:
 
 	HUD();
-	void buildHUD(ShaderProgram& program);
+	static HUD& instance()
+	{
+		static HUD H;
+
+		return H;
+	}
+	void buildHUD();
 	void updateHealth(float amount);
-	void updateExperience();
+	void updateExperience(float amount);
+
+	void setTexProgram(ShaderProgram& program);
 
 	void render();
 	void renderFriends();
 	
 private:
 
-	TextManager* TxtManager[3  ];
+	TextManager* TxtManager[3];
 	glm::mat4 projection;
 	glm::mat4 modelview;
 	ShaderProgram texProgram;
@@ -29,6 +37,7 @@ private:
 	float experienceAmount;
 	
 	Quad* health;
+	Quad* experience;
 	Quad* friends;
 	
 };

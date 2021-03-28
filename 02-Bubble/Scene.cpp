@@ -65,7 +65,7 @@ void Scene::init()
 	currentTime = 0.0f;
 
 	//creo la HUD
-	hud.buildHUD(texProgram);
+	HUD::instance().setTexProgram(texProgram);
 
 	if (!Menu::instance().getIsBuild())
 	{
@@ -87,6 +87,8 @@ void Scene::update(int deltaTime)
 	maps[pantalla]->setPosPlayer(player->getPosPlayer());
 	maps[pantalla]->update(deltaTime);
 
+	HUD::instance().updateHealth(player->getHealth());
+	HUD::instance().updateExperience(player->getExperiencie());
 	
 
 	//Si el jugador se pone en esa posicion bWin se pone a true y se activa el mecanismo de partida ganada, por detras se
@@ -133,10 +135,9 @@ void Scene::update(int deltaTime)
 			if (e->playerContact(player->getPosPlayer()))
 			{
 				player->addHealth(-25.f);
-				hud.updateHealth(player->getHealth());
 			}
 
-			player->punchIfPossible(*e);
+			player->punchIfPossible(*e, 100.f);
 
 		}
 	}
@@ -159,7 +160,7 @@ void Scene::render()
 {
 	glm::mat4 modelview;
 
-	hud.render();
+	HUD::instance().render();
 	texProgram.use();
 	texProgram.setUniformMatrix4f("projection", projection);
 	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
@@ -202,7 +203,8 @@ void Scene::reloadMap()
 	}
 	
 	player->restart();
-	hud.updateHealth(player->getHealth());
+	HUD::instance().updateHealth(player->getHealth());
+	HUD::instance().updateExperience(player->getExperiencie());
 }
 
 void Scene::restart()

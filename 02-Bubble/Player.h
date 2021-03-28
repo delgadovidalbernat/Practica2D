@@ -30,8 +30,10 @@ public:
 	void setHealth(float life);
 	void addHealth(float amountHealth);
 
+	float getExperiencie();
+
 	bool enemyContact(glm::fvec2 enemyPos);
-	void punchIfPossible(Enemigo &enemy);
+	void punchIfPossible(Enemigo &enemy, float amount);
 	
 protected:
 

@@ -297,6 +297,17 @@ void Player::update(int deltaTime)
 
 		++delayToHitAgain;
 	}
+
+	if (experience == 100.f)
+	{
+		if (health >= 75.f && health <= 100.f)
+		{
+			health = 100.f;
+		}else
+			health += 25.f;
+
+		experience = 0.f;
+	}
 }
 
 void Player::render()
@@ -348,9 +359,14 @@ void Player::addHealth(float amountLife)
 	health += amountLife;
 }
 
+float Player::getExperiencie()
+{
+	return experience;
+}
+
 bool Player::enemyContact(glm::fvec2 enemyPos)
 {
-	if ((enemyPos.y == posPlayer.y && sprite->animation() == HIT_RIGHT && enemyPos.x <= (posPlayer.x + 1.25*map->getTileSize())) || (enemyPos.y == posPlayer.y && sprite->animation() == HIT_LEFT && enemyPos.x >= (posPlayer.x - 1.25 * map->getTileSize())))
+	if ((enemyPos.y == posPlayer.y && sprite->animation() == HIT_RIGHT && enemyPos.x <= (posPlayer.x + 1.15*map->getTileSize())) || (enemyPos.y == posPlayer.y && sprite->animation() == HIT_LEFT && enemyPos.x >= (posPlayer.x - 1.15 * map->getTileSize())))
 	{
 		return true;
 	}
@@ -358,11 +374,15 @@ bool Player::enemyContact(glm::fvec2 enemyPos)
 	return false;
 }
 
-void Player::punchIfPossible(Enemigo& enemy)
+void Player::punchIfPossible(Enemigo& enemy, float amount)
 {
-	if (enemyContact(enemy.getPosPlayer()) && bhitting)
+	if (enemyContact(enemy.getPosPlayer()) && bhitting && enemy.getEstado() == ALIVE)
 	{
-
-		enemy.addHealth(-100);
+		if ((enemy.getHealth() - amount) <= 0.f)
+		{
+			experience += 25.f;
+			HUD::instance().updateExperience(experience);
+		}
+		enemy.addHealth(-amount);
 	}
 }

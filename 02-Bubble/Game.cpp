@@ -15,6 +15,7 @@ void Game::init()
 	godMode = false;
 	glClearColor(0.f, 0.f, 0.f, 1.0f);
 	level.init();
+	HUD::instance().buildHUD();
 }
 
 bool Game::update(int deltaTime)

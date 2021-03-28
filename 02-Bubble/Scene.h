@@ -46,7 +46,7 @@ private:
 	float currentTime;
 	glm::mat4 projection;
 	int pantalla;
-	HUD hud;
+
 	
 };
 

@@ -128,12 +128,12 @@ void EnemigoBasico::update(int deltaTime)
 		setPuedeCollisionar(false);
 	}
 
-	if (getHealth() <= 0.f)
+	if (getHealth() <= 0.f && getEstado() == ALIVE)
 	{
 
 		setPuedeCollisionar(false);
 		setCanRender(false);
-		
+		setEstado(DEAD);
 	}
 }
 
