@@ -7,6 +7,7 @@
 
 
 #include "Game.h"
+#include "SoundPlayer.h"
 
 
 Menu::Menu()
@@ -113,6 +114,7 @@ void Menu::functionPLAY()
 	Game::instance().setBLose(false);
 	Game::instance().setbWin(false);
 	Game::instance().setFriendsSafed(0);
+	SoundPlayer::instance().play2DSong("sounds/MainTheme.mp3", true);
 }
 
 void Menu::functionOPTIONS()

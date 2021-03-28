@@ -3,6 +3,7 @@
 #include "Game.h"
 
 #include "Menu.h"
+#include "SoundPlayer.h"
 
 
 void Game::init()
@@ -16,6 +17,7 @@ void Game::init()
 	glClearColor(0.f, 0.f, 0.f, 1.0f);
 	level.init();
 	HUD::instance().buildHUD();
+	SoundPlayer::instance().init();
 }
 
 bool Game::update(int deltaTime)
