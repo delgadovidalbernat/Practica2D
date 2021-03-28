@@ -4,6 +4,7 @@
 #include <GL/glut.h>
 #include "Player.h"
 #include "Game.h"
+#include "SoundPlayer.h"
 
 
 #define JUMP_ANGLE_STEP 4
@@ -367,7 +368,7 @@ float Player::getExperiencie()
 
 bool Player::enemyContact(glm::fvec2 enemyPos)
 {
-	if ((enemyPos.y == posPlayer.y && sprite->animation() == HIT_RIGHT && enemyPos.x <= (posPlayer.x + 1.15*map->getTileSize())) || (enemyPos.y == posPlayer.y && sprite->animation() == HIT_LEFT && enemyPos.x >= (posPlayer.x - 1.15 * map->getTileSize())))
+	if ((enemyPos.y == posPlayer.y && sprite->animation() == HIT_RIGHT && enemyPos.x < (posPlayer.x + 1.15*map->getTileSize() && enemyPos.x >= (posPlayer.x))) || (enemyPos.y == posPlayer.y && sprite->animation() == HIT_LEFT && enemyPos.x > (posPlayer.x - 1.15 * map->getTileSize()) && enemyPos.x <= (posPlayer.x)))
 	{
 		return true;
 	}
@@ -383,6 +384,7 @@ void Player::punchIfPossible(Enemigo& enemy, float amount)
 		{
 			experience += 25.f;
 			HUD::instance().updateExperience(experience);
+			SoundPlayer::instance().play2DSong("sounds/punch.wav", false);
 		}
 		enemy.addHealth(-amount);
 	}
