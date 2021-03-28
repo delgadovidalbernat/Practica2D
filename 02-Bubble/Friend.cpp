@@ -57,7 +57,7 @@ bool Friend::playerContact(glm::ivec2 PlayerPosition)
 	}
 
 	
-	return puedeColisionar && collisioning && !Game::instance().getGodMode();
+	return puedeColisionar && collisioning;
 }
 
 void Friend::update(int deltaTime)
